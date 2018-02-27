@@ -1,6 +1,7 @@
 /*
- * The MIT License
+ * More info at [www.dropzonejs.com](http://www.dropzonejs.com)
  * Copyright (c) 2012 Matias Meno <m@tias.me>
+ * The MIT License
  */
 @-webkit-keyframes passing-through {
   0% {
@@ -214,7 +215,6 @@
 .dropzone {
   min-height: 150px;
   border: 2px solid rgba(0, 0, 0, 1);
-  /* background: white; */
   padding: 20px 20px;
 }
 .dropzone.dz-clickable {
@@ -295,7 +295,7 @@
   max-width: 100%;
   padding: 2em 1em;
   text-align: center;
-  /* color: rgba(0, 0, 0, 0.9); */
+  color: rgba(0, 0, 0, 0.9);
   line-height: 150%;
 }
 .dropzone .dz-preview .dz-details .dz-size {
@@ -410,7 +410,6 @@
   margin-top: -8px;
   width: 80px;
   margin-left: -40px;
-  /* background: rgba(255, 255, 255, 0.9); */
   -webkit-transform: scale(1);
   border-radius: 8px;
   overflow: hidden;

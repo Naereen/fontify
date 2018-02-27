@@ -16,33 +16,35 @@ CROPPED_IMG_NAME = "cropped_picture.bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
-def get_flat_chars():
+def get_flat_chars(extended=False):
     # ASCII letters
     chars  = unicode(string.lowercase)
     chars += unicode(string.uppercase)
     # Numbers
     chars += unicode(string.digits)
-    # Punctuations and symbols
-    chars += unicode(u"!\"$&'(),-.:;?")
-    chars += unicode(u"/\\#~{}[]|_@+*$`")
-    # French and Spanish accents
-    chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
-    chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
-    # Special ligatures
-    chars += unicode(u"æœßÆŒ")
-    # non ASCII symbols (currency etc)
-    chars += unicode(u"£¥₩€₹₺₽元…¡«»¿‘’“”")
-    # Greek upper and lower
-    chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
-    chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")
-    # Gree special caracters
-    # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
-    # Maths
-    # FIXME remove the useless caracters nobody ever use
-    chars += unicode(u"°±×÷ø–—‰′″‴→↓↑←↔⇒⇔∀∂∃∅∇∈∉∏∑√∛∝∞∧∨∩∪∫∬∭∮∯∰∴∵≈≝≠≡≤≥≪≫⊂⊃⊄⊆⊈⊕")
-    # chars += unicode(u"∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿")
-    # Special ligatures
-    # TODO
+    if not extended:
+        chars += unicode(string.punctuation)
+    else:
+        # Punctuations and symbols
+        chars += unicode(u"!\"$&'(),-.:;?")
+        chars += unicode(u"/\\#~{}[]|_@+*$`")
+        # French and Spanish accents
+        chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
+        chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
+        # Special ligatures
+        chars += unicode(u"æœßÆŒ")
+        # non ASCII symbols (currency etc)
+        chars += unicode(u"£¥₩€₹₺₽元…¡«»¿‘’“”")
+        # Greek upper and lower
+        chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
+        chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")
+        # Greek special caracters, nobody use that
+        # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
+        # Maths
+        chars += unicode(u"°ℕℝℂℙℤℚ±×÷ø–—‰′″‴→↓↑←↔⇒⇔∀∂∃∅∇∈∉∏∑√∛∝∞∧∨∩∪∫∬∭∮∯∰∴∵≈≝≠≡≤≥≪≫⊂⊃⊄⊆⊈⊕")
+        # Special ligatures
+        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
+        chars += unicode(u"🙰ﬀﬁﬂﬃﬄﬅﬆ")
     return chars
 
 

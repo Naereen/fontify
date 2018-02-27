@@ -9,15 +9,19 @@ Install wkhtmltopdf: http://wkhtmltopdf.org/downloads.html
 
 ```shell
 npm install -g ttf2woff
+git submodule init
+git submodule update
+sudo apt-get install fontforge
+sudo apt-get install python-opencv
 
 virtualenv env
 source env/bin/activate
 pip install -r requirements.txt
 python hello.py
+```
 
-git submodule init
-git submodule update
-# install fontforge
-# install opencv
-# install cv2 (opencv binding for Python)
+And in another process
+
+```shell
+firefox http://0.0.0.0:5000/
 ```

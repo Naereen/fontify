@@ -17,7 +17,7 @@ from data import TMPL_OPTIONS
 
 UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
-ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg'])
+ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -98,6 +98,12 @@ def upload_file():
                 dir=app.config['UPLOAD_FOLDER']
             )
             file.save(filename)
+            if '.pdf' in filename:
+                filename_png = filename.replace('.pdf', '.png')
+                return_code = subprocess.call(["convert", "-density", "300", "-quality", "100", filename, filename_png])
+                if return_code != 0:
+                    raise ValueError("Call to 'convert -density 300 -quality 100 {} {}' failed... do you have 'convert' from imagemagick installed?".format(filename, filename_png))
+                filename = filename_png
             font_name = request.form['font-name']
             key = filename.split('/')[-1].split('.')[0]
             os.mkdir(os.path.join(app.config['DOWNLOAD_FOLDER'], key))

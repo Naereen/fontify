@@ -26,7 +26,7 @@ def _detect_circles(filepath):
 
     img = cv2.imread(tempfile_name,0)
     img = cv2.medianBlur(img,5)
-    circles = cv2.HoughCircles(img,cv2.cv.CV_HOUGH_GRADIENT,1,20,
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,1,20,
                                param1=50,param2=30,minRadius=10,maxRadius=500)
     circles = np.uint16(np.around(circles))
 

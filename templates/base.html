@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="static/style.css">
     <link rel="stylesheet" type="text/css" href="static/dropzone.css">
     <link rel="stylesheet" type="text/css" href="static/ribbons.css">
-    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <script src="https://use.typekit.net/ryg5gzt.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> -->
+    <!-- <script src="https://use.typekit.net/ryg5gzt.js"></script> -->
+    <script src="static/ryg5gzt.js"></script>
+    <script>
+        try {
+            Typekit.load({
+                async: true
+            });
+        } catch (e) {}
+    </script>
+    <!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script> -->
+    <script src="static/jquery-1.12.0.min.js"></script>
     <meta name="viewport" content="user-scalable=no, width=device-width">
 </head>
+
 <body>
 
-<div class="ribbon right fontify">
-  <a href="https://github.com/fontify/fontify" target="_blank">Fork me on GitHub</a>
-</div>
-{% block body %}{% endblock %}
+    <div class="ribbon right fontify">
+        <a href="https://github.com/Naereen/fontify" target="_blank">Fork me on GitHub</a>
+    </div>
+    {% block body %}{% endblock %}
 
-<footer>
-<p>©2016 Fontify</p>
-<p>Made in <a href="https://www.nwhacks.io" target="_blank">nwHacks 2016</a></p>
-</footer>
+    <footer>
+        <p>© 2016 Fontify, © 2018 Lilian Besson (Naereen)</p>
+    </footer>
 
-<script src="static/dropzone.js"></script>
-<script src="static/index.js"></script>
+    <script src="static/dropzone.js"></script>
+    <script src="static/index.js"></script>
 
 </body>
+
 </html>

@@ -1,6 +1,4 @@
-# Quick Makefile
-# __author__ = "Lilian Besson"
-# __version__ = "0.9"
+# Makefile
 
 # Using bash and not sh, cf. http://stackoverflow.com/a/589300/
 SHELL := /bin/bash -o pipefail
@@ -11,3 +9,9 @@ clean:
 	-rm -vfr __pycache__/ **/__pycache__/
 	-rm -vf *.pyc */*.pyc
 
+activate:
+	. env/bin/activate
+
+run:	activate
+	# firefox http://0.0.0.0:5000/ &
+	python hello.py

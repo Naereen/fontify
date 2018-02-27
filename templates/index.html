@@ -1,7 +1,4 @@
-{% extends "base.html" %}
-{% block title %}Fontify - Make your own font!{% endblock %}
-
-{% block body %}
+{% extends "base.html" %} {% block title %}Fontify - Make your own font!{% endblock %} {% block body %}
 <h1 class="index">Fontify</h1>
 <p class="subtitle">Make your own font!</p>
 <a href="/template" target="_blank"><button class="gradient-rect">Print the template</button></a>
@@ -10,20 +7,20 @@
 <div class="font-name">
     <input class="gradient-rect" id="font-name-input" placeholder="Enter a name"></input>
     <script type="text/javascript">
-    $(function() {
-        $("#font-name-input").on("change keyup paste click", function(e) {
-            if (/^[a-zA-Z0-9]+$/i.test(e.target.value) === false) {
-                $("#font-name-validation").text("Please enter alphanumeric characters");
-                $("#font-name-validation").addClass("alert");
-                $("#submit-all").attr("disabled", true);
-            } else {
-                $("#font-name-validation").text("Your awesome font name");
-                $("#font-name-validation").removeClass("alert");
-                $("#submit-all").attr("disabled", false);
-            }
-            $("#font-name").val(e.target.value);
+        $(function() {
+            $("#font-name-input").on("change keyup paste click", function(e) {
+                if (/^[a-zA-Z0-9]+$/i.test(e.target.value) === false) {
+                    $("#font-name-validation").text("Please enter alphanumeric characters");
+                    $("#font-name-validation").addClass("alert");
+                    $("#submit-all").attr("disabled", true);
+                } else {
+                    $("#font-name-validation").text("Your awesome font name");
+                    $("#font-name-validation").removeClass("alert");
+                    $("#submit-all").attr("disabled", false);
+                }
+                $("#font-name").val(e.target.value);
+            });
         });
-    });
     </script>
     <p id="font-name-validation">Your awesome font name</p>
 </div>

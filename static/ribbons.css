@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Cabin+Condensed:500&text=Fork%20me%20on%20GitHub);
 
 .ribbon{
-  position: fixed; 
+  position: fixed;
   top: 42px;
   width: 200px;
   padding: 1px 0;
@@ -31,16 +31,16 @@
   transform: rotate(45deg);
 }
 
-.ribbon a, 
-.ribbon a:visited, 
-.ribbon a:active, 
+.ribbon a,
+.ribbon a:visited,
+.ribbon a:active,
 .ribbon a:hover{
   display: block;
   padding: 1px 0;
   height: 24px;
   line-height: 24px;
 
-  color: inherit;  
+  color: inherit;
   text-align: center;
   text-decoration: none;
   font-family: 'Cabin Condensed', sans-serif;

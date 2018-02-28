@@ -5,6 +5,7 @@ SHELL := /bin/bash -o pipefail
 
 # Cleaner
 clean:
+	-mv -vf restored_image.bmp wait_for_detect.bmp upload/* download/* /tmp/
 	-mv -vf *.pyc */*.pyc /tmp/
 	-rm -vfr __pycache__/ **/__pycache__/
 	-rm -vf *.pyc */*.pyc

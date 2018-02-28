@@ -39,4 +39,4 @@ for c in chars:
         "width": width
     }
 
-print json.dumps(metadata, indent=2)
+print(json.dumps(metadata, indent=2))

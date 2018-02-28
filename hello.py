@@ -1,7 +1,14 @@
 # -*- coding: utf8 -*-
+from __future__ import print_function
 import os
 import subprocess
 import tempfile
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io.StringIO import StringIO
+
 from flask import Flask
 from flask import request
 from flask import send_from_directory
@@ -10,9 +17,12 @@ from flask import redirect
 from flask import make_response
 from flask import render_template
 from flask import jsonify
-# from flask.ext.mandrill import Mandrill
+
 from pdfkit import from_string
+from PyPDF2 import PdfFileMerger
+
 from data import get_chars
+from data import get_chars_by_page
 from data import get_sample_chars
 from data import TMPL_OPTIONS
 
@@ -23,8 +33,6 @@ ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
-# app.config.from_envvar('FONTIFY_SETTINGS')
-# mandrill = Mandrill(app)
 
 
 @app.route("/")
@@ -40,6 +48,16 @@ def finish():
         'finish.html',
         key=key,
         font_name=font_name
+    )
+
+
+# DEBUG Just to debug the template
+@app.route("/template_html")
+def template_html():
+    return render_template(
+        'template.html',
+        chars=get_chars(),
+        sample=get_sample_chars()
     )
 
 
@@ -62,6 +80,68 @@ def template():
     return response
 
 
+# DEBUG Just to debug the template
+@app.route("/template_bypage_html")
+def template_bypage_html():
+    return render_template(
+        'template_bypage.html',
+        chars_by_page=get_chars_by_page(),
+        sample=get_sample_chars()
+    )
+
+
+@app.route("/template_bypage")
+def template_bypage():
+    html = render_template(
+        'template_bypage.html',
+        chars_by_page=get_chars_by_page(),
+        sample=get_sample_chars()
+    )
+    pdf = from_string(
+        html,
+        False,
+        options=TMPL_OPTIONS,
+        css='static/template.css'
+    )
+    response = make_response(pdf)
+    response.headers['Content-Disposition'] = "filename=template.pdf"
+    response.mimetype = 'application/pdf'
+    return response
+
+
+@app.route("/template_pagebypage")
+def template_pagebypage():
+    chars_by_page = get_chars_by_page()
+    print("Number of pages:", len(chars_by_page))
+    pages = []
+    # create a fake PDF for each page
+    for chars in chars_by_page:
+        html = render_template(
+            'template.html',
+            chars=chars,
+            sample=get_sample_chars()
+        )
+        pdf = from_string(
+            html,
+            False,
+            options=TMPL_OPTIONS,
+            css='static/template.css'
+        )
+        pages.append(pdf)
+    # now merge the PDF
+    pdf = StringIO()
+    merger = PdfFileMerger()
+    for pgnb, page in enumerate(pages):
+        fakepdf = StringIO(page)
+        merger.append(fakepdf)
+    merger.write(pdf)
+    pdf_string = pdf.getvalue()
+    response = make_response(pdf_string)
+    response.headers['Content-Disposition'] = "filename=template.pdf"
+    response.mimetype = 'application/pdf'
+    return response
+
+
 @app.route("/download/<key>/<fontname>")
 def download(key, fontname):
     return send_from_directory(
@@ -69,17 +149,6 @@ def download(key, fontname):
         fontname,
         as_attachment=True
     )
-
-
-@app.route("/email/<key>/<fontname>", methods=['POST'])
-def email(key, fontname):
-    recipient = request.form['email']
-    addr = url_for('download', key=key, fontname=fontname)
-    # mandrill.send_email(
-    #     to=[{'email': recipient}],
-    #     html=render_template('email.html', addr=addr)
-    # )
-    return redirect(url_for('finish', key=key, fontname=fontname))
 
 
 def allowed_file(filename):

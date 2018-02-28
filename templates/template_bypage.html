@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Fontify Template to print &amp; scan</title>
 </head>
 
 <body>
     <!-- <h1>Fontify Template to print &amp; scan</h1> -->
+    {% for chars in chars_by_page %}
     <div class="anchor upper"></div>
     <div class="anchor lower"></div>
     <table>
@@ -33,6 +35,8 @@
         <!-- End of row -->
         {% endfor %}
     </table>
+    <!-- End of table -->
+    {% endfor %}
 </body>
 
 </html>

@@ -1,22 +1,34 @@
 # -*- coding: utf8 -*-
-from __future__ import print_function
+from __future__ import print_function, division
+from math import ceil
 import string
 
+# Options, see https://github.com/JazzCore/python-pdfkit
 TMPL_OPTIONS = {
-    'page-size': 'Letter'
+    # 'page-size': 'Letter',
+    # 'print-media-type': False,
+    'encoding': 'UTF-8',
+    'margin-top': '0.5in',
+    'margin-bottom': '0.5in',
+    'margin-left': '0.5in',
+    'margin-right': '0.5in',
 }
 
-ROWS = 6
-print("ROWS =", ROWS)
+ROWS = 9
+# print("ROWS =", ROWS)  # DEBUG
 COLUMNS = 9
-print("COLUMNS =", COLUMNS)
+# print("COLUMNS =", COLUMNS)  # DEBUG
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
+
+# Use the extended charset or not
+EXTENDED = True
+EXTENDED = False
 
 CROPPED_IMG_NAME = "cropped_picture.bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
-def get_flat_chars(extended=False):
+def get_flat_chars(extended=EXTENDED):
     # ASCII letters
     chars  = unicode(string.lowercase)
     chars += unicode(string.uppercase)
@@ -55,7 +67,7 @@ def get_grouped_chars():
         chars[i: i + MDIM]
         for i in xrange(0, len(chars), MDIM)
     ]
-    print("grouped_chars =", grouped_chars)
+    # print("grouped_chars =", grouped_chars)  # DEBUG
     return grouped_chars
 
 
@@ -67,8 +79,35 @@ def get_chars():
         ' ' * ROWS
         for i in xrange(len(chars), ROWS)
     ])
-    print("chars =", chars)
+    # print("chars =", chars)  # DEBUG
     return chars
+
+
+def get_chars_by_page():
+    chars = get_flat_chars()
+    grouped_chars = [
+        chars[i: i + COLUMNS]
+        for i in xrange(0, len(chars), COLUMNS)
+    ]
+    grouped_chars[-1] = grouped_chars[-1].ljust(COLUMNS)
+    grouped_chars.extend([
+        ' ' * ROWS
+        for i in xrange(len(grouped_chars), ROWS)
+    ])
+    # print("grouped_chars =", grouped_chars)  # DEBUG
+    # print("len(grouped_chars =", len(grouped_chars))  # DEBUG
+    # print("ROWS =", ROWS)  # DEBUG
+    nb_page = int(ceil(len(grouped_chars) / ROWS))
+    # print("nb_page =", nb_page)  # DEBUG
+    grouped_chars_by_page = [
+        [
+            grouped_chars[i]
+            for i in xrange(page*ROWS, min((page+1)*ROWS, len(grouped_chars)))
+        ]
+        for page in xrange(0, nb_page)
+    ]
+    print("grouped_chars_by_page =", grouped_chars_by_page)  # DEBUG
+    return grouped_chars_by_page
 
 
 def get_sample_chars():

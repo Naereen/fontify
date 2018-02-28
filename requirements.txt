@@ -2,3 +2,4 @@ Flask
 Pillow
 pdfkit
 opencv-python
+PyPDF2

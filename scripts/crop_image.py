@@ -57,7 +57,7 @@ def _restore_if_tilt(filepath):
     origin_im = Image.open(filepath)
     rotate_angle = (actual_angle - expected_angle) / math.pi * 180 + 0.25
 
-    print "rotate: {} degrees".format(rotate_angle)
+    print("rotate: {} degrees".format(rotate_angle))
 
     rotated_im = origin_im.rotate(rotate_angle)
     restored_image_filename = "restored_image.bmp"

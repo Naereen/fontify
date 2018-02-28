@@ -6,46 +6,6 @@
 <p id="ready-to-use" class="subtitle">Your font is ready to use!</p>
 <a href="/download/{{ key }}/fontify.ttf"><button class="gradient-rect">Download .ttf file</button></a>
 
-<!--
-<p style="margin-top: 20px;">Send via email</p>
-<style type="text/css">
-#email-form {
-    position: relative;
-    width: 360px;
-    margin: auto;
-}
-#email {
-    border: none;
-    outline: none;
-    height: 32px;
-    border-radius: 4px;
-    padding: 5px 10px;
-    font-size: 20px;
-    color: RGB(81, 149, 72);
-
-    position: absolute;
-    top: 2px;
-    left: 0;
-}
-#email-submit {
-    border: none;
-    outline: none;
-    height: 32px;
-    border-radius: 4px;
-    padding: 5px 14px;
-    font-size: 14px;
-    margin-bottom: 2px;
-
-    position: absolute;
-    top: 2px;
-    right: 0;
-}
-</style>
-<form id="email-form" method="POST" action="/email/{{ key }}/fontify.ttf">
-    <input id="email" name="email" placeholder="example@gmail.com"></input>
-    <input id="email-submit" class="gradient-rect" type="submit" value="Submit">
-</form> -->
-
 <style type="text/css">
 @font-face {
     font-family: {{ font_name }};
@@ -64,7 +24,7 @@ textarea {
 <div class="playground">
     <p class="subtitle">Playground</p>
     <p>See your own font in action!</p>
-    <textarea class="gradient-rect lighter" placeholder="I can eat glass, it does not hurt me."></textarea>
+    <textarea class="gradient-rect lighter" placeholder="The quick brown fox jumps over the lazy dog. Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera !"></textarea>
 </div>
 
 
@@ -72,13 +32,13 @@ textarea {
     <p class="subtitle">Use as webfont</p>
     <p>Add the following lines to your CSS:</p>
     <pre class="gradient-rect lighter">@font-face {
-  font-family: {{ font_name }};
-  src: url(/download/{{ key }}/fontify.woff);
+    font-family: {{ font_name }};
+    src: url(/download/{{ key }}/fontify.woff);
 }
 
 /* Then use {{ font_name }} like this: */
 p {
-  font-family: {{ font_name }}, sans-serif;
+    font-family: {{ font_name }}, sans-serif;
 }</pre>
 </div>
 {% endblock %}

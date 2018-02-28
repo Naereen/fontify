@@ -1,5 +1,13 @@
 body {
 	font-family: "SF UI Text", sans-serif;
+	display: inline-block;
+	position: relative;
+	padding: 30px;
+}
+
+/* From https://stackoverflow.com/a/21574057/ */
+* {
+	overflow: visible !important;
 }
 
 h1 {
@@ -10,11 +18,16 @@ h1 {
 table {
 	border-spacing: 0px;
 	border-collapse: collapse;
-	border: 2px solid black;
+	border: 1px solid rgba(0,0,0,0.8);
+}
+
+/* https://stackoverflow.com/a/36151873/ */
+table, thead, td, th {
+	page-break-inside: avoid !important;
 }
 
 th, td {
-	border: 1px solid black;
+	border: 1px solid rgba(0,0,0,0.8);
 	padding: 5px;
 }
 
@@ -27,7 +40,7 @@ th, td {
 .ref-line-top, .ref-line-bottom {
 	position: absolute;
 	width: 100%;
-	border-bottom: 2px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 
 .ref-line-top {
@@ -71,8 +84,16 @@ th, td {
 	right: 0px;
 }
 
-.wrapper {
-	display: inline-block;
-	position: relative;
-	padding: 30px;
+/* From https://stackoverflow.com/a/39526518/ */
+.page-break {
+	page-break-after: always;
+	page-break-before: always;
+	page-break-inside: avoid !important;
+	/* height: 0; */
+	/* margin: 0; */
+	/* border-top: none; */
+    /* clear: both; */
+    /* display: block; */
+	/* border :1px solid transparent; */
+	/* margin: 4px 0 4px 0; */
 }

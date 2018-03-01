@@ -16,3 +16,9 @@ activate:
 run:	activate
 	# firefox http://0.0.0.0:5000/ &
 	python hello.py
+
+test_pdf:
+	xelatex test.tex
+	xelatex test.tex
+	-rm -vf test.aux test.fls test.log test.fdb_latexmk test.synctex.gz
+	# xdg-open test.pdf &

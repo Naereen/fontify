@@ -18,7 +18,7 @@ h1 {
 table {
 	border-spacing: 0px;
 	border-collapse: collapse;
-	border: 1px solid rgba(0,0,0,0.8);
+	border: 1px solid black;
 }
 
 /* https://stackoverflow.com/a/36151873/ */
@@ -27,7 +27,7 @@ table, thead, td, th {
 }
 
 th, td {
-	border: 1px solid rgba(0,0,0,0.8);
+	border: 1px solid black;
 	padding: 5px;
 }
 

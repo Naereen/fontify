@@ -53,12 +53,12 @@ def finish():
 
 
 # DEBUG Just to debug the template
-@app.route("/template_html")
-def template_html():
+@app.route("/oldtemplate_html")
+def oldtemplate_html():
     return render_template(
         'template.html',
         chars=get_chars(),
-        sample=get_sample_chars()
+        sample=get_sample_chars(),
     )
 
 
@@ -73,22 +73,11 @@ def oldtemplate():
         html,
         False,
         options=TMPL_OPTIONS,
-        css='static/css/template.css'
     )
     response = make_response(pdf)
     response.headers['Content-Disposition'] = "filename=template.pdf"
     response.mimetype = 'application/pdf'
     return response
-
-
-# DEBUG Just to debug the template
-@app.route("/template_bypage_html")
-def template_bypage_html():
-    return render_template(
-        'template_bypage.html',
-        chars_by_page=get_chars_by_page(),
-        sample=get_sample_chars()
-    )
 
 
 @app.route("/template_bypage")
@@ -108,6 +97,17 @@ def template_bypage():
     response.headers['Content-Disposition'] = "filename=template.pdf"
     response.mimetype = 'application/pdf'
     return response
+
+
+# DEBUG Just to debug the template
+@app.route("/template_html")
+def template_html():
+    return render_template(
+        'template.html',
+        chars=get_chars(),
+        sample=get_sample_chars(),
+        css='static/css/template.css'
+    )
 
 
 @app.route("/template")
@@ -184,9 +184,18 @@ def upload_file():
                     raise ValueError("Call to 'convert -density 300 -quality 100 {} {}' failed... do you have 'convert' from imagemagick installed?".format(filename, filename_png))
                 filename = filename_png
                 filenames = [filename]
-                # FIXME if there is more than one page, we need to use a list
                 if not os.path.exists(filename):
                     filenames = glob.glob(filename.replace('.png', '-[0-9]*.png'))
+                    for image in filenames:
+                        return_code = subprocess.call([
+                            "convert",
+                            "-set", "colorspace", "Gray",
+                            "-separate", "-average",
+                            image,
+                            image
+                        ])
+                        if return_code != 0:
+                            raise ValueError("Call to 'convert -set colorspace Gray -separate -average {} {}' failed... do you have 'convert' from imagemagick installed?".format(image, image))
 
             font_name = request.form['font-name']
             key = filenames[0].split('/')[-1].split('.')[0]

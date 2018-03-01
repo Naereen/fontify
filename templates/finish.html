@@ -24,7 +24,7 @@ textarea {
 <div class="playground">
     <h2>Playground</h2>
     <p>See your own font in action!</p>
-    <textarea placeholder="The quick brown fox jumps over the lazy dog. 0123456789. ; : ! ? / & ~ # ' { ( [ - | _ \\ @ ) ] } = + Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera ! Ligatures : ae æ, oe œ, fs ß, AE Æ, OE Œ, ff ﬀ, fi ﬁ, fl ﬂ, ffi ﬃ, ffl ﬄ, ft ﬅ, st ﬆ etc…"></textarea>
+    <textarea placeholder="The quick brown fox jumps over the lazy dog. 0123456789. ; : ! ? / & ~ # ' { ( [ - | _ \\ @ ) ] } = + Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera ! Ligatures : ae æ, oe œ, fs ß, AE Æ, OE Œ, ff ﬀ, fi ﬁ, fl ﬂ, ffi ﬃ, ffl ﬄ, ft ﬅ, st ﬆ etc… Greek : Φ Χ Ψ Ω and φ χ ψ ω. Maths: ℕ ℝ ℂ ℙ ℤ ℚ and ∀ ∂ ∃ ∅ ∇ and ∩ ∪ ∫ and ≠ ≤ ≥ ⊂ ⊃ "></textarea>
 </div>
 
 <div class="use-font">
@@ -41,4 +41,25 @@ p {
     font-family: {{ font_name }}, sans-serif;
 }</pre>
 </div>
+
+<div class=use-font">
+    <h2>Use as font in XeLaTeX</h2>
+    Use this template, and compile with <code>xelatex</code> in the good folder.
+    See <a href="test.pdf" target="_blank">this example file</a> (from <a href="test.tex" target="_blank"this .tex source</a>).
+    <pre>\documentclass[a4paper,12pt]{article}
+\usepackage{fontspec}
+\fontspec [Path = static/css/fonts/,
+    UprightFont = *-Regular,
+    ItalicFont = *-Italic
+]{Fontify}
+
+\begin{document}
+
+Hello world!
+
+\end{document}
+</pre>
+</div>
+
+
 {% endblock %}

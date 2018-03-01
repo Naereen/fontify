@@ -1,0 +1,246 @@
+% https://tex.stackexchange.com/a/12568/
+%
+\documentclass[a4paper,10pt]{article}
+%% AMS maths and others
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{bbm,bm}
+
+\usepackage{fontspec}
+
+% \fontspec [Path = static/css/fonts/,
+%     UprightFont = *-Regular,
+%     % ItalicFont = *-Italic
+% ]{Fontify}
+
+\setmainfont[Ligatures=Historic]{TeX Gyre Pagella}
+% \setmainfont[Path = static/css/fonts/]{Fontify-Regular}
+
+\newfontfamily\MyTitle[Ligatures=Historic]{TeX Gyre Pagella}
+% \newfontfamily\Reference{Fira Code}
+\newfontfamily\Reference[Ligatures=Historic]{TeX Gyre Pagella}
+\newfontfamily\Fontify[Path = static/css/fonts/]{Fontify-Regular}
+
+
+\begin{document}
+
+{\Reference Hello world! Reference texts are like this line, in TeX Gyre Pagella font.}
+
+{\Fontify Hello world! Example texts are like this line, in Fontify-Regular font.}
+
+
+\section{Test in English}
+\subsection{Lowercase letters separated}
+
+{\Reference a b c d e f g h i j k l m n o p q r s t u v x y z}
+
+{\Fontify a b c d e f g h i j k l m n o p q r s t u v x y z}
+
+
+\subsection{Uppercase letters separated}
+
+{\Reference A B C D E F G H I J K L M N O P Q R S T U V X Y Z}
+
+{\Fontify A B C D E F G H I J K L M N O P Q R S T U V X Y Z}
+
+
+\subsection{Lowercase letters}
+
+{\Reference the quick brown fox jumps over the lazy dog}
+
+{\Fontify the quick brown fox jumps over the lazy dog}
+
+
+\subsection{Uppercase letters}
+
+{\Reference THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG}
+
+{\Fontify THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG}
+
+
+\subsection{Symbols}
+
+{\Reference , ; : ! ? . / § *}
+
+{\Fontify , ; : ! ? . / § *}
+
+
+{\Reference ( [ - | \ ) ] = +}
+
+{\Fontify ( [ - | \ ) ] = +}
+
+
+\subsection{Special LaTeX Symbols}
+% https://tex.stackexchange.com/a/34586/
+
+{\Reference \& \% \$ \# \_ \{ \} \textasciitilde \textasciicircum \textbackslash}
+
+{\Fontify \& \% \$ \# \_ \{ \} \textasciitilde \textasciicircum \textbackslash}
+
+
+\subsection{Numbers}
+
+{\Reference 0 1 2 3 4 5 6 7 8 9}
+
+{\Fontify 0 1 2 3 4 5 6 7 8 9}
+
+
+{\Reference 0123 456 789}
+
+{\Fontify 0123 456 789}
+
+
+{\Reference 0123456789}
+
+{\Fontify 0123456789}
+
+
+\subsection{Ligatures?}
+
+\subsubsection{Without ligatures}
+
+{\Reference ae oe fs AE OE}
+
+{\Fontify ae oe fs AE OE}
+
+
+{\Reference st et ft ff fs fi fl ffl ffi}
+
+{\Fontify st et ft ff fs fi fl ffl ffi}
+
+
+\subsubsection{With ligatures}
+
+{\Reference æ œ ß Æ Œ}
+
+{\Fontify æ œ ß Æ Œ}
+
+
+{\Reference ﬆ 🙰}
+
+{\Fontify ﬆ 🙰}
+
+
+{\Reference ﬀ ﬁ ﬂ ﬃ ﬄ ﬅ}
+
+{\Fontify ﬀ ﬁ ﬂ ﬃ ﬄ ﬅ}
+
+
+\subsubsection{Greek without \$\$}
+
+{\Reference Φ Χ Ψ Ω}
+
+{\Fontify Φ Χ Ψ Ω}
+
+
+{\Reference φ χ ψ ω}
+
+{\Fontify φ χ ψ ω}
+
+
+\subsubsection{Greek with \$\$}
+
+{\Reference $\Phi \Xi \Psi \Omega$}
+
+{\Fontify $\Phi \Xi \Psi \Omega$}
+
+
+{\Reference $\phi \xi \psi \omega$}
+
+{\Fontify $\phi \xi \psi \omega$}
+
+
+\subsubsection{Maths without \$\$}
+
+{\Reference ℕℝℂℙℤℚ}
+
+{\Fontify ℕℝℂℙℤℚ}
+
+
+{\Reference ∀∂∃∅∇}
+
+{\Fontify ∀∂∃∅∇}
+
+
+{\Reference ∩∪∫}
+
+{\Fontify ∩∪∫}
+
+
+{\Reference ≠≤≥⊂⊃}
+
+{\Fontify ≠≤≥⊂⊃}
+
+
+\subsubsection{Maths with \$\$}
+
+{\Reference $\mathbb{N} \mathbb{R} \mathbb{C} \mathbb{P} \mathbb{Z} \mathbb{Q}$}
+
+{\Fontify $\mathbb{N} \mathbb{R} \mathbb{C} \mathbb{P} \mathbb{Z} \mathbb{Q}$}
+
+
+{\Reference $\forall \partial \exists \emptyset \nabla$}
+
+{\Fontify $\forall \partial \exists \emptyset \nabla$}
+
+
+{\Reference $\cap \cup \int$}
+
+{\Fontify $\cap \cup \int$}
+
+
+{\Reference $\neq \leq \geq \subset \supset$}
+
+{\Fontify $\neq \leq \geq \subset \supset$}
+
+
+
+\section{Test en français}
+\subsection{Lettres minuscules séparées}
+
+{\Reference a b c d e f g h i j k l m n o p q r s t u v x y z}
+
+{\Fontify a b c d e f g h i j k l m n o p q r s t u v x y z}
+
+
+{\Reference à é è ç ë ù ï ê ü î ô œ ÿ â û æ}
+
+{\Fontify à é è ç ë ù ï ê ü î ô œ ÿ â û æ}
+
+
+\subsection{Lettres majuscules séparées}
+
+{\Reference A B C D E F G H I J K L M N O P Q R S T U V X Y Z}
+
+{\Fontify A B C D E F G H I J K L M N O P Q R S T U V X Y Z}
+
+
+{\Reference À É È Ç Ë Ù Ï Ê Ü Î Ô Œ Ÿ Â Û Æ}
+
+{\Fontify À É È Ç Ë Ù Ï Ê Ü Î Ô Œ Ÿ Â Û Æ}
+
+
+\subsection{Lettres minuscules}
+
+{\Reference dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr \& cætera !}
+
+{\Fontify dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr \& cætera !}
+
+
+{\Reference voix ambiguë d'un cœur qui, au zéphyr, préfère les jattes de kiwis.}
+
+{\Fontify voix ambiguë d'un cœur qui, au zéphyr, préfère les jattes de kiwis.}
+
+
+\subsection{Lettres majuscules}
+
+{\Reference DÈS NOËL OÙ UN ZÉPHYR HAÏ ME VÊT DE GLAÇONS WÜRMIENS JE DÎNE D’EXQUIS RÔTIS DE BŒUF AU KIR À L’AŸ D’ÂGE MÛR \& CÆTERA !}
+
+{\Fontify DÈS NOËL OÙ UN ZÉPHYR HAÏ ME VÊT DE GLAÇONS WÜRMIENS JE DÎNE D’EXQUIS RÔTIS DE BŒUF AU KIR À L’AŸ D’ÂGE MÛR \& CÆTERA !}
+
+
+{\Reference VOIX AMBIGUË D'UN CŒUR QUI, AU ZÉPHYR, PRÉFÈRE LES JATTES DE KIWIS.}
+
+{\Fontify VOIX AMBIGUË D'UN CŒUR QUI, AU ZÉPHYR, PRÉFÈRE LES JATTES DE KIWIS.}
+
+
+\end{document}

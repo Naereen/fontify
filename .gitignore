@@ -4,6 +4,12 @@
 *~
 *.swp
 
+# LaTeX files
+*.aux
+*.fls
+*.log
+*.pdf
+*.fdb_latexmk
 *.bmp
 
 # Byte-compiled / optimized / DLL files

@@ -21,8 +21,8 @@ COLUMNS = 9
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
-EXTENDED = True
 EXTENDED = False
+EXTENDED = True
 
 CROPPED_IMG_NAME = "cropped_picture.bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
@@ -45,6 +45,7 @@ def get_flat_chars(extended=EXTENDED):
         # Special ligatures
         # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
         chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
+        chars += unicode(u"ΦΧΨΩφχψωℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
         return chars
         # FIXME remove when done testing!
         chars += unicode(u"🙰")

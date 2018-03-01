@@ -31,7 +31,7 @@ UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
@@ -141,6 +141,16 @@ def template():
     response.headers['Content-Disposition'] = "filename=template.pdf"
     response.mimetype = 'application/pdf'
     return response
+
+
+@app.route('/test.tex')
+def test_tex():
+    return app.send_static_file('test.tex')
+
+
+@app.route('/test.pdf')
+def test_pdf():
+    return app.send_static_file('test.pdf')
 
 
 @app.route("/download/<key>/<fontname>")

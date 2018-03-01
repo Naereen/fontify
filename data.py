@@ -39,7 +39,7 @@ def get_flat_chars(extended=EXTENDED):
     else:
         # Punctuations and symbols
         chars += unicode(u"!\"$&'(),-.:;?")
-        chars += unicode(u"/\\#~{}[]|_@+*$`")
+        chars += unicode(u"/\\#~{}[]|_@+*`")
         # Some basic ligatures
         chars += unicode(u"æœßÆŒ")
         # Special ligatures

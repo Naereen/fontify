@@ -21,8 +21,8 @@ COLUMNS = 9
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
-EXTENDED = False
 EXTENDED = True
+EXTENDED = False
 
 CROPPED_IMG_NAME = "cropped_picture.bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
@@ -109,7 +109,7 @@ def get_chars_by_page():
         ]
         for page in xrange(0, nb_page)
     ]
-    print("grouped_chars_by_page =", grouped_chars_by_page)  # DEBUG
+    # print("grouped_chars_by_page =", grouped_chars_by_page)  # DEBUG
     return grouped_chars_by_page
 
 

@@ -73,7 +73,7 @@ def oldtemplate():
         html,
         False,
         options=TMPL_OPTIONS,
-        css='static/template.css'
+        css='static/css/template.css'
     )
     response = make_response(pdf)
     response.headers['Content-Disposition'] = "filename=template.pdf"
@@ -102,7 +102,7 @@ def template_bypage():
         html,
         False,
         options=TMPL_OPTIONS,
-        css='static/template.css'
+        css='static/css/template.css'
     )
     response = make_response(pdf)
     response.headers['Content-Disposition'] = "filename=template.pdf"
@@ -126,7 +126,7 @@ def template():
             html,
             False,
             options=TMPL_OPTIONS,
-            css='static/template.css'
+            css='static/css/template.css'
         )
         pages.append(pdf)
     # now merge the PDF

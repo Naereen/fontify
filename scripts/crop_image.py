@@ -54,11 +54,14 @@ def _restore_if_tilt(filepath):
     actual_angle = math.atan(actual_K)
 
     origin_im = Image.open(filepath)
+
     rotate_angle = (actual_angle - expected_angle) / math.pi * 180 + 0.25
-
+    # FIXME maybe no need to rotate?
+    # Or I should debug it!
+    rotate_angle = 0
     print("rotate: {} degrees".format(rotate_angle))
-
     rotated_im = origin_im.rotate(rotate_angle)
+
     restored_image_filename = "restored_image.bmp"
     rotated_im.save(restored_image_filename)
 

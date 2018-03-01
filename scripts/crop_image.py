@@ -1,9 +1,9 @@
 # -*- coding: utf8 -*-
 import os
-import cv2
-import numpy as np
-from PIL import Image, ImageChops, ImageFilter
 import math
+import numpy as np
+import cv2
+from PIL import Image, ImageChops, ImageFilter
 
 from data import PERCENTAGE_TO_CROP_SCAN_IMG, CROPPED_IMG_NAME
 
@@ -16,7 +16,6 @@ def crop_by_percentage(origin_im, percentage):
     lower = int((1 - percentage) * height)
     im = origin_im.crop((left, upper, right, lower))
     return im
-
 
 
 def _detect_circles(filepath):
@@ -95,19 +94,22 @@ def trim(origin_im, blur=True,
         return im
 
 
-def crop_whole(filepath):
+def crop_whole(filepath, usecrop=False):
     restored_filepath = _restore_if_tilt(filepath)
     top_circle, bottom_circle = _detect_circles(restored_filepath)
 
     im = Image.open(restored_filepath)
-    # im = trim(im)
-    im = im.crop((top_circle[0], top_circle[1], bottom_circle[0], bottom_circle[1]))
+    if usecrop:
+        im = im.crop((top_circle[0], top_circle[1], bottom_circle[0], bottom_circle[1]))
+    else:
+        im = trim(im)
 
     trimmed_filepath = os.path.join(
         os.path.dirname(filepath),
         CROPPED_IMG_NAME
     )
     im.save(trimmed_filepath)
+
     return trimmed_filepath
 
 
@@ -120,6 +122,9 @@ def crop_char(filepath):
 # for MANUAL unit test
 if __name__ == "__main__":
     import sys
-    trimmed_filepath = crop_whole(sys.argv[1])
+    # try:
+    trimmed_filepath = crop_whole(sys.argv[1], usecrop=False)
+    # except SystemError:
+    #     trimmed_filepath = crop_whole(sys.argv[1], usecrop=True)
     im = Image.open(trimmed_filepath)
     print trimmed_filepath

@@ -26,7 +26,7 @@ for c in chars:
     svg_name = glyph_key + ".svg"
     svg_path = os.path.join(sys.argv[2], svg_name)
     if not os.path.isfile(svg_path):
-        sys.stderr.write("%s not exists, skipped.\n" % svg_name)
+        sys.stderr.write(u"File {:>10} for glyph {:>4} not exists, skipped.\n".format(svg_name, c))
         continue
 
     with open(svg_path) as f:

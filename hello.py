@@ -183,6 +183,7 @@ def upload_file():
                 if return_code != 0:
                     raise ValueError("Call to 'convert -density 300 -quality 100 {} {}' failed... do you have 'convert' from imagemagick installed?".format(filename, filename_png))
                 filename = filename_png
+                filenames = [filename]
                 # FIXME if there is more than one page, we need to use a list
                 if not os.path.exists(filename):
                     filenames = glob.glob(filename.replace('.png', '-[0-9]*.png'))
@@ -192,12 +193,16 @@ def upload_file():
 
             os.mkdir(os.path.join(app.config['DOWNLOAD_FOLDER'], key))
 
-            subprocess.call([
+            call_to_fontify = [
                 "python",
                 "scripts/fontify.py",
                 "-n", font_name,
                 "-o", os.path.join(app.config['DOWNLOAD_FOLDER'], key, "fontify.ttf"),
                 ] + filenames
+            print("call_to_fontify:")  # DEBUG
+            print(call_to_fontify)  # DEBUG
+
+            subprocess.call(call_to_fontify
             )
             return jsonify(font_name=font_name, key=key)
     return ''

@@ -15,6 +15,7 @@ a {
 
 body {
     text-align: center;
+    text-justify: initial;
     font-size: 18px;
     padding: 50px 0 30px 0;
 }
@@ -24,31 +25,33 @@ h1 {
     font-size: 100px;
 }
 
-h1.index {
-    text-transform: lowercase;
+@font-face {
+    font-family: "Fontify";
+    src: url('fonts/Fontify-Regular.ttf')  format("truetype");
 }
 
-h2 {
-    text-align: left;
+h1 .title {
+    font-family: 'Fontify', sans-serif;
+    font-style: italic;
 }
-
-/* button {
-    cursor: pointer;
-    width: 320px;
-    height: 80px;
-    font-size: 32px;
-} */
 
 .font-name {
     margin-top: 80px;
 }
 
 .font-name input {
-    width: 320px;
+    width: 80%;
     height: 80px;
-    font-size: 32px;
+    font-size: 24px;
     padding: 0 40px;
     text-align: center;
+}
+
+@media (min-width: 480px) {
+    .upload .dropzone {
+        width: 50%;
+        font-size: 32px;
+    }
 }
 
 .upload {
@@ -56,9 +59,14 @@ h2 {
 }
 
 .upload .dropzone {
-    width: 50%;
+    width: 85%;
     margin: auto;
-    /* border: 0; */
+}
+
+@media (min-width: 480px) {
+    .upload .dropzone {
+        width: 50%;
+    }
 }
 
 .upload .dz-message {
@@ -73,10 +81,17 @@ h2 {
     margin-top: 48px;
 }
 
+p {
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 pre, textarea {
-    text-align: left;
+    text-align: center;
     width: 70%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 20px;
     padding: 16px 24px;
 }

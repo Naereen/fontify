@@ -1,35 +1,40 @@
 {% extends "base.html" %}
 {% block title %}Fontify - Make your own font!{% endblock %}
 {% block body %}
-<h1 class="index">Fontify</h1>
-<p class="subtitle">Make your own font!</p>
+<h2>Make your own font!</h2>
 <a href="/template" target="_blank"><button class="btn btn-primary">Print the template</button></a>
 <p>Fill the template, scan it, and upload</p>
 
 <div class="font-name">
-    <input id="font-name-input" placeholder="Enter a name"></input>
+    <input id="font-name-input" class="form-control" placeholder="Enter a name" style="margin-left: auto; margin-right: auto;"></input>
     <script type="text/javascript">
         $(function() {
             $("#font-name-input").on("change keyup paste click", function(e) {
                 if (/^[a-zA-Z0-9]+$/i.test(e.target.value) === false) {
-                    $("#font-name-validation").text("Please enter alphanumeric characters");
-                    $("#font-name-validation").addClass("text-danger");
+                    $("#font-name-validation").text("Please enter alphanumeric characters!");
+                    $("#font-name-validation").removeClass("valid-feedback");
+                    $("#font-name-validation").addClass("invalid-feedback");
+                    $("#font-name-input").removeClass("is-valid");
+                    $("#font-name-input").addClass("is-invalid");
                     $("#submit-all").attr("disabled", true);
                 } else {
-                    $("#font-name-validation").text("Your awesome font name");
-                    $("#font-name-validation").removeClass("text-danger");
+                    $("#font-name-validation").text("Your awesome font name: " + e.target.value);
+                    $("#font-name-validation").removeClass("invalid-feedback");
+                    $("#font-name-validation").addClass("valid-feedback");
+                    $("#font-name-input").removeClass("is-invalid");
+                    $("#font-name-input").addClass("is-valid");
                     $("#submit-all").attr("disabled", false);
                 }
                 $("#font-name").val(e.target.value);
             });
         });
     </script>
-    <p id="font-name-validation">Your awesome font name</p>
+    <div id="font-name-validation">Your awesome font name</div>
 </div>
 
 <div class="upload">
     <p id="upload-file-validation">Upload the scanned template</p>
-    <form action="/upload-file" class="dropzone gradient-rect" id="uploadDropzone">
+    <form action="/upload-file" class="dropzone" id="uploadDropzone">
         <input type="hidden" id="font-name" name="font-name"></input>
     </form>
     <p><button id="submit-all" class="btn btn-primary">Submit</button></p>

@@ -2,8 +2,30 @@
 {% block title %}Fontify - Make your own font!{% endblock %}
 {% block body %}
 <h2>Make your own font!</h2>
-<a href="/template" target="_blank"><button class="btn btn-primary">Print the template</button></a>
-<p>Fill the template, scan it, and upload</p>
+<p>
+    Three steps:
+</p>
+<ol>
+    <li>
+        Print the template,
+    </li>
+    <li>
+        Fill it and scan it,
+    </li>
+    <li>
+        Generate the font and test it, you're done!
+    </li>
+</ol>
+<hr>
+
+<a href="/template" target="_blank">
+    <button class="btn btn-primary">
+        Print the template
+    </button>
+</a>
+<p>
+    1. Fill the template, scan it, and upload.
+</p>
 
 <div class="font-name">
     <input id="font-name-input" class="form-control" placeholder="Enter a name" style="margin-left: auto; margin-right: auto;"></input>
@@ -29,14 +51,21 @@
             });
         });
     </script>
-    <div id="font-name-validation">Your awesome font name</div>
+    <div id="font-name-validation">
+        Your awesome font name.
+    </div>
 </div>
 
 <div class="upload">
-    <p id="upload-file-validation">Upload the scanned template</p>
+    <p id="upload-file-validation">
+        2. Upload the scanned template.
+    </p>
     <form action="/upload-file" class="dropzone" id="uploadDropzone">
         <input type="hidden" id="font-name" name="font-name"></input>
     </form>
-    <p><button id="submit-all" class="btn btn-primary">Submit</button></p>
+    <br>
+    <p><button id="submit-all" class="btn btn-primary">
+        3. Submit.
+    </button></p>
 </div>
 {% endblock %}

@@ -20,19 +20,20 @@ body {
     padding: 50px 0 30px 0;
 }
 
-h1 {
-    margin: 20px 0 40px 0;
-    font-size: 100px;
-}
-
 @font-face {
     font-family: "Fontify";
     src: url('fonts/Fontify-Regular.ttf')  format("truetype");
 }
 
-h1 .title {
+h1 {
+    margin: 20px 0 40px 0;
+    font-size: 100px;
+}
+
+.fontify {
     font-family: 'Fontify', sans-serif;
     font-style: italic;
+    letter-spacing: -15px !important;
 }
 
 .font-name {
@@ -48,7 +49,7 @@ h1 .title {
 }
 
 @media (min-width: 480px) {
-    .upload .dropzone {
+    .font-name input {
         width: 50%;
         font-size: 32px;
     }
@@ -88,7 +89,7 @@ p {
 }
 
 pre, textarea {
-    text-align: center;
+    text-align: left;
     width: 70%;
     margin-left: auto;
     margin-right: auto;
@@ -100,11 +101,11 @@ pre {
 }
 
 footer {
-    margin-top: 40px;
+    margin-top: 50px;
 }
 footer p {
-    text-align: right;
-    margin: 6px 0;
+    text-align: right !important;
+    margin-right: 25%;
 }
 
 @media only screen and (max-device-width: 480px) {

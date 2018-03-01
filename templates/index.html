@@ -1,21 +1,23 @@
-{% extends "base.html" %} {% block title %}Fontify - Make your own font!{% endblock %} {% block body %}
+{% extends "base.html" %}
+{% block title %}Fontify - Make your own font!{% endblock %}
+{% block body %}
 <h1 class="index">Fontify</h1>
 <p class="subtitle">Make your own font!</p>
-<a href="/template" target="_blank"><button class="gradient-rect">Print the template</button></a>
+<a href="/template" target="_blank"><button class="btn btn-primary">Print the template</button></a>
 <p>Fill the template, scan it, and upload</p>
 
 <div class="font-name">
-    <input class="gradient-rect" id="font-name-input" placeholder="Enter a name"></input>
+    <input id="font-name-input" placeholder="Enter a name"></input>
     <script type="text/javascript">
         $(function() {
             $("#font-name-input").on("change keyup paste click", function(e) {
                 if (/^[a-zA-Z0-9]+$/i.test(e.target.value) === false) {
                     $("#font-name-validation").text("Please enter alphanumeric characters");
-                    $("#font-name-validation").addClass("alert");
+                    $("#font-name-validation").addClass("text-danger");
                     $("#submit-all").attr("disabled", true);
                 } else {
                     $("#font-name-validation").text("Your awesome font name");
-                    $("#font-name-validation").removeClass("alert");
+                    $("#font-name-validation").removeClass("text-danger");
                     $("#submit-all").attr("disabled", false);
                 }
                 $("#font-name").val(e.target.value);
@@ -30,6 +32,6 @@
     <form action="/upload-file" class="dropzone gradient-rect" id="uploadDropzone">
         <input type="hidden" id="font-name" name="font-name"></input>
     </form>
-    <p><button class="gradient-rect" id="submit-all">Submit</button></p>
+    <p><button id="submit-all" class="btn btn-primary">Submit</button></p>
 </div>
 {% endblock %}

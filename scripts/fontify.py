@@ -1,6 +1,6 @@
-#!/usr/bin/env python2
 # -*- coding: utf8 -*-
 import argparse
+# !/usr/bin/env python2
 import tempfile
 import shutil
 import os

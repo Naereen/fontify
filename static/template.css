@@ -40,15 +40,15 @@ th, td {
 .ref-line-top, .ref-line-bottom {
 	position: absolute;
 	width: 100%;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #ddd;
 }
 
 .ref-line-top {
-	top: 18px;
+	top: 30px;
 }
 
 .ref-line-bottom {
-	top: 40px;
+	top: 60px;
 }
 
 .empty {
@@ -60,8 +60,8 @@ th, td {
 	font-family: Georgia;
 	font-style: italic;
 	text-align: center;
-	font-size: 46px;
-	line-height: 50px;
+	font-size: 65px;
+	line-height: 80px;
 }
 
 .anchor {

@@ -21,8 +21,8 @@ COLUMNS = 9
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
-EXTENDED = True
 EXTENDED = False
+EXTENDED = True
 
 CROPPED_IMG_NAME = "cropped_picture.bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
@@ -40,11 +40,17 @@ def get_flat_chars(extended=EXTENDED):
         # Punctuations and symbols
         chars += unicode(u"!\"$&'(),-.:;?")
         chars += unicode(u"/\\#~{}[]|_@+*$`")
+        # Some basic ligatures
+        chars += unicode(u"æœßÆŒ")
+        # Special ligatures
+        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
+        chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
+        return chars
+        # FIXME remove when done testing!
+        chars += unicode(u"🙰")
         # French and Spanish accents
         chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
         chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
-        # Special ligatures
-        chars += unicode(u"æœßÆŒ")
         # non ASCII symbols (currency etc)
         chars += unicode(u"£¥₩€₹₺₽元…¡«»¿‘’“”")
         # Greek upper and lower
@@ -54,9 +60,6 @@ def get_flat_chars(extended=EXTENDED):
         # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
         # Maths
         chars += unicode(u"°ℕℝℂℙℤℚ±×÷ø–—‰′″‴→↓↑←↔⇒⇔∀∂∃∅∇∈∉∏∑√∛∝∞∧∨∩∪∫∬∭∮∯∰∴∵≈≝≠≡≤≥≪≫⊂⊃⊄⊆⊈⊕")
-        # Special ligatures
-        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
-        chars += unicode(u"🙰ﬀﬁﬂﬃﬄﬅﬆ")
     return chars
 
 
@@ -111,4 +114,5 @@ def get_chars_by_page():
 
 
 def get_sample_chars():
-    return iter("AaBb")
+    return iter(u"AaΩω")
+    # return iter("AaBb")

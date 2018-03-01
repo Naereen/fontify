@@ -2,38 +2,39 @@
 {% block title %}Fontify - Your font is ready to use!{% endblock %}
 
 {% block body %}
-<h1>Cheers!</h1>
-<p id="ready-to-use" class="subtitle">Your font is ready to use!</p>
-<a href="/download/{{ key }}/fontify.ttf"><button class="gradient-rect">Download .ttf file</button></a>
+<h2 id="ready-to-use">Your font is ready to use!</h2>
+<a href="/download/{{ key }}/fontify.ttf"><button class="gradient-rect">Download <code>.ttf</code> file</button></a>
+<a href="/download/{{ key }}/fontify.woff"><button class="gradient-rect">Download <code>.woff</code> file</button></a>
 
 <style type="text/css">
 @font-face {
     font-family: {{ font_name }};
-    src: url(/download/{{ key }}/fontify.woff);
+    src:
+        url(/download/{{ key }}/fontify.woff) format("woff")
+        url(/download/{{ key }}/fontify.ttf)  format("truetype");
 }
 textarea {
     font-family: {{ font_name }}, sans-serif;
-    font-size: 36px;
-    height: 200px;
-}
-.playground .subtitle {
-    margin-bottom: 10px;
+    font-size: 30px;
+    height: 250px;
+    width: 90%;
 }
 </style>
 
 <div class="playground">
-    <p class="subtitle">Playground</p>
+    <h2>Playground</h2>
     <p>See your own font in action!</p>
-    <textarea class="gradient-rect lighter" placeholder="The quick brown fox jumps over the lazy dog. Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera !"></textarea>
+    <textarea placeholder="The quick brown fox jumps over the lazy dog. 0123456789. ; : ! ? / & ~ # ' { ( [ - | _ \\ @ ) ] } = + Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera ! Ligatures : ae æ, oe œ, fs ß, AE Æ, OE Œ, ff ﬀ, fi ﬁ, fl ﬂ, ffi ﬃ, ffl ﬄ, ft ﬅ, st ﬆ etc…"></textarea>
+    
 </div>
 
-
 <div class="use-font">
-    <p class="subtitle">Use as webfont</p>
+    <h2>Use as webfont</h2>
     <p>Add the following lines to your CSS:</p>
-    <pre class="gradient-rect lighter">@font-face {
+    <pre>@font-face {
     font-family: {{ font_name }};
-    src: url(/download/{{ key }}/fontify.woff);
+    src: url(/download/{{ key }}/fontify.ttf) format('ttf')
+         url(/download/{{ key }}/fontify.woff) format('woff');
 }
 
 /* Then use {{ font_name }} like this: */

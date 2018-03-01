@@ -3,6 +3,7 @@ from __future__ import print_function
 import os
 import subprocess
 import tempfile
+import glob
 
 try:
     from StringIO import StringIO
@@ -61,8 +62,8 @@ def template_html():
     )
 
 
-@app.route("/template")
-def template():
+@app.route("/oldtemplate")
+def oldtemplate():
     html = render_template(
         'template.html',
         chars=get_chars(),
@@ -109,8 +110,8 @@ def template_bypage():
     return response
 
 
-@app.route("/template_pagebypage")
-def template_pagebypage():
+@app.route("/template")
+def template():
     chars_by_page = get_chars_by_page()
     print("Number of pages:", len(chars_by_page))
     pages = []
@@ -168,16 +169,36 @@ def upload_file():
                 dir=app.config['UPLOAD_FOLDER']
             )
             file.save(filename)
+            filenames = [filename]
+
             if '.pdf' in filename:
                 filename_png = filename.replace('.pdf', '.png')
-                return_code = subprocess.call(["convert", "-density", "300", "-quality", "100", filename, filename_png])
+                return_code = subprocess.call([
+                    "convert",
+                    "-density", "300",
+                    "-quality", "100",
+                    filename,
+                    filename_png
+                ])
                 if return_code != 0:
                     raise ValueError("Call to 'convert -density 300 -quality 100 {} {}' failed... do you have 'convert' from imagemagick installed?".format(filename, filename_png))
                 filename = filename_png
+                # FIXME if there is more than one page, we need to use a list
+                if not os.path.exists(filename):
+                    filenames = glob.glob(filename.replace('.png', '-[0-9]*.png'))
+
             font_name = request.form['font-name']
-            key = filename.split('/')[-1].split('.')[0]
+            key = filenames[0].split('/')[-1].split('.')[0]
+
             os.mkdir(os.path.join(app.config['DOWNLOAD_FOLDER'], key))
-            subprocess.call(["python", "scripts/fontify.py", "-n", font_name, "-o", os.path.join(app.config['DOWNLOAD_FOLDER'], key, "fontify.ttf"), filename])
+
+            subprocess.call([
+                "python",
+                "scripts/fontify.py",
+                "-n", font_name,
+                "-o", os.path.join(app.config['DOWNLOAD_FOLDER'], key, "fontify.ttf"),
+                ] + filenames
+            )
             return jsonify(font_name=font_name, key=key)
     return ''
 

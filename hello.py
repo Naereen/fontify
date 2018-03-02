@@ -31,7 +31,7 @@ UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
 
-app = Flask(__name__, static_url_path='/')
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 

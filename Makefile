@@ -1,7 +1,9 @@
 # Makefile
-
 # Using bash and not sh, cf. http://stackoverflow.com/a/589300/
 SHELL := /bin/bash -o pipefail
+
+default:	clean rundebug
+prod:	clean run
 
 # Cleaner
 clean:
@@ -13,9 +15,13 @@ clean:
 activate:
 	. env/bin/activate
 
-run:	activate
+rundebug:	activate
 	# firefox http://0.0.0.0:5000/ &
 	python hello.py
+
+run:	activate
+	# firefox http://0.0.0.0:5000/ &
+	python wsgi.py
 
 test_pdf:
 	xelatex test.tex

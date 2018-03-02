@@ -7,7 +7,7 @@ import glob
 
 try:
     from StringIO import StringIO
-except ImportError:
+except ImportError:  # in Python 3
     from io.StringIO import StringIO
 
 from flask import Flask
@@ -30,6 +30,7 @@ from data import TMPL_OPTIONS
 UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
+DPI = 300
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -147,7 +148,6 @@ def template():
 def test_tex():
     return app.send_static_file('test.tex')
 
-
 @app.route('/test.pdf')
 def test_pdf():
     return app.send_static_file('test.pdf')
@@ -181,11 +181,11 @@ def upload_file():
             file.save(filename)
             filenames = [filename]
 
-            if '.pdf' in filename:
+            if filename.endswith('.pdf'):
                 filename_png = filename.replace('.pdf', '.png')
                 return_code = subprocess.call([
                     "convert",
-                    "-density", "300",
+                    "-density", str(DPI),
                     "-quality", "100",
                     filename,
                     filename_png
@@ -218,11 +218,10 @@ def upload_file():
                 "-n", font_name,
                 "-o", os.path.join(app.config['DOWNLOAD_FOLDER'], key, "fontify.ttf"),
                 ] + filenames
-            print("call_to_fontify:")  # DEBUG
-            print(call_to_fontify)  # DEBUG
 
-            subprocess.call(call_to_fontify
-            )
+            return_code = subprocess.call(call_to_fontify)
+            if return_code != 0:
+                raise ValueError("Call to 'scripts/fontify.py' failed... Check log above.")
             return jsonify(font_name=font_name, key=key)
     return ''
 

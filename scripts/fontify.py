@@ -1,15 +1,20 @@
+#!/usr/bin/env python2
 # -*- coding: utf8 -*-
 from __future__ import print_function
 import argparse
 import tempfile
 import shutil
 import os
+import sys
 import subprocess
 
+sys.path.insert(0, '..')  # just to import data correctly
+sys.path.insert(0, 'scripts')  # just to import data correctly
 import crop_image
 import cut_into_multiple_images
 import bmp_to_svg
 import data
+from data import get_chars_by_page
 
 
 def check_input(images):
@@ -39,11 +44,17 @@ def setup_work_dir(images):
 
 
 def process(tmpdir, images, font_name):
-    for image in images:
-        crop_image.crop_whole(os.path.join(tmpdir, image))
-
-    cut_into_multiple_images.cut(os.path.join(tmpdir, data.CROPPED_IMG_NAME))
+    # 1. Crop the image using the two black circles
+    trimmed_filepaths = []
+    for page, image in enumerate(images):
+        trimmed_filepath = crop_image.crop_whole(page, os.path.join(tmpdir, image))
+        trimmed_filepaths.append(trimmed_filepath)
+    # 2. Cut images into square pieces
+    for page, trimmed_filepath in enumerate(trimmed_filepaths):
+        cut_into_multiple_images.cut(page, trimmed_filepath)
+    # 3. Convert them from BMP to SVG
     bmp_to_svg.bmp_to_svg(tmpdir)
+    # 4. Then use the fontforge script svgs2ttf
     scriptdir = os.path.realpath(os.path.dirname(__file__))
     sh_fullpath = os.path.join(scriptdir, 'svg_to_ttf.sh')
     svgdir = os.path.join(tmpdir, 'svg')
@@ -51,6 +62,7 @@ def process(tmpdir, images, font_name):
         [sh_fullpath, font_name, svgdir, os.path.join(tmpdir, 'fontify.ttf')],
         cwd=scriptdir
     )
+    # 5. Finally use the npm script ttf2woff to also generate a .woff file
     subprocess.call(
         ['ttf2woff', os.path.join(tmpdir, 'fontify.ttf'), os.path.join(tmpdir, 'fontify.woff')],
     )

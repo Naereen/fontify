@@ -14,17 +14,18 @@ TMPL_OPTIONS = {
     'margin-right': '0.5in',
 }
 
+# FIXME don't change now!
 ROWS = 9
-# print("ROWS =", ROWS)  # DEBUG
 COLUMNS = 9
-# print("COLUMNS =", COLUMNS)  # DEBUG
+print("Shape of the characters: on {} rows and {} columns...".format(ROWS, COLUMNS))  # DEBUG
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
 EXTENDED = False
 EXTENDED = True
 
-CROPPED_IMG_NAME = "cropped_picture.bmp"
+CROPPED_IMG_NAME = "cropped_picture"
+CROPPED_IMG_EXT = "bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
@@ -69,7 +70,7 @@ def get_grouped_chars():
     MDIM = max(ROWS, COLUMNS)
     grouped_chars = [
         chars[i: i + MDIM]
-        for i in xrange(0, len(chars), MDIM)
+        for i in range(0, len(chars), MDIM)
     ]
     # print("grouped_chars =", grouped_chars)  # DEBUG
     return grouped_chars
@@ -81,7 +82,7 @@ def get_chars():
     chars[-1] = chars[-1].ljust(COLUMNS)
     chars.extend([
         ' ' * ROWS
-        for i in xrange(len(chars), ROWS)
+        for i in range(len(chars), ROWS)
     ])
     # print("chars =", chars)  # DEBUG
     return chars
@@ -91,12 +92,12 @@ def get_chars_by_page():
     chars = get_flat_chars()
     grouped_chars = [
         chars[i: i + COLUMNS]
-        for i in xrange(0, len(chars), COLUMNS)
+        for i in range(0, len(chars), COLUMNS)
     ]
     grouped_chars[-1] = grouped_chars[-1].ljust(COLUMNS)
     grouped_chars.extend([
         ' ' * ROWS
-        for i in xrange(len(grouped_chars), ROWS)
+        for i in range(len(grouped_chars), ROWS)
     ])
     # print("grouped_chars =", grouped_chars)  # DEBUG
     # print("len(grouped_chars =", len(grouped_chars))  # DEBUG
@@ -106,9 +107,9 @@ def get_chars_by_page():
     grouped_chars_by_page = [
         [
             grouped_chars[i]
-            for i in xrange(page*ROWS, min((page+1)*ROWS, len(grouped_chars)))
+            for i in range(page*ROWS, min((page+1)*ROWS, len(grouped_chars)))
         ]
-        for page in xrange(0, nb_page)
+        for page in range(0, nb_page)
     ]
     # print("grouped_chars_by_page =", grouped_chars_by_page)  # DEBUG
     return grouped_chars_by_page

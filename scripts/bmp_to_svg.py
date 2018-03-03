@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf8 -*-
+from __future__ import print_function
 import os
 import sys
 import subprocess
@@ -31,7 +32,7 @@ def bmp_to_svg(basedir):
                 continue
             crop_image.crop_char(outfile)
             if is_white(outfile):
-                print "Skipping empty character", outfile
+                print("Skipping empty character", outfile)
                 continue
             infile = outfile
             outfile = os.path.join(basedir, 'svg', name + '.svg')
@@ -40,3 +41,9 @@ def bmp_to_svg(basedir):
             )
             if ret != 0:
                 sys.stderr.write("Error converting %s to svg\n" % infile)
+
+
+if __name__ == "__main__":
+    import sys
+    basedir = sys.argv[1]
+    bmp_to_svg(basedir)

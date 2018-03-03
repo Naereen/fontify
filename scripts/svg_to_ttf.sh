@@ -3,5 +3,6 @@
 # $1 font name
 # $2 input directory
 # $3 output ttf
-./gen_metadata.py $1 $2 $3 > $2/metadata.json
-third-party/svgs2ttf/svgs2ttf $2/metadata.json
+# $4 font variant (Regular, Italic etc)
+./gen_metadata.py "$1" "$2" "$3" "${4:-Regular}" > "$2"/metadata.json
+third-party/svgs2ttf/svgs2ttf "$2"/metadata.json

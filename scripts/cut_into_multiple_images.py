@@ -2,9 +2,35 @@
 # -*- coding: utf8 -*-
 from __future__ import print_function
 import os
+import numpy as np
 from PIL import Image
+import cv2
 
 from data import COLUMNS, ROWS, get_chars, get_chars_by_page
+
+NORMALIZE = 1
+NORMALIZE = 255
+
+
+def smooth_and_thicken(im_char, normalize=NORMALIZE):
+    """ See https://stackoverflow.com/a/37410236/"""
+    _blur = ((1, 1), 1)
+    _erode = (1, 1)
+    _dilate = (1, 1)
+    np_im_char = np.asarray(im_char)
+    if normalize != 1:
+        im_input = np_im_char / normalize
+    else:
+        im_input = np_im_char
+    im_blurred = cv2.GaussianBlur(im_input, _blur[0], _blur[1])
+    im_eroded = cv2.erode(im_blurred, np.ones(_erode))
+    im_dilated = cv2.dilate(im_eroded, np.ones(_dilate))
+    if normalize != 1:
+        np_im_output = im_dilated * normalize
+    else:
+        np_im_output = im_dilated
+    im_output = Image.fromarray(np.uint8(np_im_output))
+    return im_output
 
 
 def cut(page, filepath):
@@ -61,6 +87,9 @@ def cut(page, filepath):
                     i + cell_height - margin_height_bottom
                 )
             )
+            # FIXME try to smooth and thicken the image
+            # char_im = smooth_and_thicken(char_im)
+
             glyph_path = os.path.join(bmp_dir, "{}.bmp".format(hex(ord(char))))
             char_im.save(glyph_path)
             print(u"Saved char '{}' at index i, j = {}, {} to file '{}'...".format(char, i, j, glyph_path))  # DEBUG

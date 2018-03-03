@@ -29,9 +29,9 @@ def check_input(images):
 def setup_work_dir(images):
     tmpdir = tempfile.mkdtemp(prefix="fontify")
     destinations = []
-    for image in images:
+    for page, image in enumerate(images):
         _, ext = os.path.splitext(image)
-        dst = 'input' + ext
+        dst = "input-{}{}".format(page, ext)
         shutil.copyfile(image, os.path.join(tmpdir, dst))
         for dirname in [os.path.join(tmpdir, 'bmp'), os.path.join(tmpdir, 'svg')]:
             if os.path.exists(dirname):
@@ -47,10 +47,12 @@ def process(tmpdir, images, font_name):
     # 1. Crop the image using the two black circles
     trimmed_filepaths = []
     for page, image in enumerate(images):
+        print("Processing the page #{} with path {} ...".format(page, image))  # DEBUG
         trimmed_filepath = crop_image.crop_whole(page, os.path.join(tmpdir, image))
         trimmed_filepaths.append(trimmed_filepath)
+        print("Trimmed image is at: {}...".format(trimmed_filepath))  # DEBUG
     # 2. Cut images into square pieces
-    for page, trimmed_filepath in enumerate(trimmed_filepaths):
+    # for page, trimmed_filepath in enumerate(trimmed_filepaths):
         cut_into_multiple_images.cut(page, trimmed_filepath)
     # 3. Convert them from BMP to SVG
     bmp_to_svg.bmp_to_svg(tmpdir)

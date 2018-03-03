@@ -17,7 +17,7 @@ TMPL_OPTIONS = {
 # FIXME don't change now!
 ROWS = 9
 COLUMNS = 9
-print("Shape of the characters: on {} rows and {} columns...".format(ROWS, COLUMNS))  # DEBUG
+# print("Shape of the characters: on {} rows and {} columns...".format(ROWS, COLUMNS))  # DEBUG
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not

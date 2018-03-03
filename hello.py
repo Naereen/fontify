@@ -31,6 +31,7 @@ UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
 DPI = 300
+THRESHOLD = 75
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -206,6 +207,17 @@ def upload_file():
                         ])
                         if return_code != 0:
                             raise ValueError("Call to 'convert -set colorspace Gray -separate -average {} {}' failed... do you have 'convert' from imagemagick installed?".format(image, image))
+
+            # now convert to black-white only!
+            for image in filenames:
+                return_code = subprocess.call([
+                    "convert",
+                    "-threshold", "{}%".format(THRESHOLD),
+                    image,
+                    image
+                ])
+                if return_code != 0:
+                    raise ValueError("Call to 'convert -threshold {}% {} {}' failed... do you have 'convert' from imagemagick installed?".format(THRESHOLD, image, image))
 
             font_name = request.form['font-name']
             key = filenames[0].split('/')[-1].split('.')[0]

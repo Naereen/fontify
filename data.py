@@ -88,12 +88,24 @@ def get_chars():
     return chars
 
 
-def get_chars_by_page():
+def get_chars_by_page(hack_for_last_bottom_right_cell=False):
     chars = get_flat_chars()
-    grouped_chars = [
-        chars[i: i + COLUMNS]
-        for i in range(0, len(chars), COLUMNS)
-    ]
+    if hack_for_last_bottom_right_cell:
+        grouped_chars = []
+        # This small hack is to avoid having the big black dot in the last bottom right cell (ugly as I can't remove it easily...)
+        delta = 0
+        for i in range(0, len(chars), COLUMNS):
+            if ((i//COLUMNS) % ROWS) == (ROWS - 1):
+                grouped_chars.append(chars[delta + i: delta + i + COLUMNS - 1] + ' ')
+                delta -= 1
+            else:
+                grouped_chars.append(chars[delta + i: delta + i + COLUMNS])
+    else:
+        grouped_chars = [
+            chars[i: i + COLUMNS]
+            for i in range(0, len(chars), COLUMNS)
+        ]
+
     grouped_chars[-1] = grouped_chars[-1].ljust(COLUMNS)
     grouped_chars.extend([
         ' ' * ROWS

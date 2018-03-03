@@ -26,10 +26,10 @@ def _detect_circles(filepath):
     im_blurred = origin_im.filter(ImageFilter.GaussianBlur(radius=10))
     im_blurred.save(tempfile_name)
 
-    img = cv2.imread(tempfile_name,0)
-    img = cv2.medianBlur(img,5)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,1,20,
-                               param1=50,param2=30,minRadius=10,maxRadius=500)
+    img = cv2.imread(tempfile_name, 0)
+    img = cv2.medianBlur(img, 5)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
+                               param1=50, param2=30, minRadius=10, maxRadius=500)
     circles = np.uint16(np.around(circles))
 
     two_circles = []

@@ -25,10 +25,11 @@ git submodule update
 2. Install the dependencies
 
 ```shell
-npm install -g ttf2woff
+sudo apt-get install imagemagick
 sudo apt-get install fontforge
 sudo apt-get install wkhtmltopdf
 sudo apt-get install python-opencv
+npm install -g ttf2woff
 sudo pip2 install --upgrade virtualenv
 ```
 

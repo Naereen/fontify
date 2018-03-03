@@ -22,7 +22,8 @@ def crop_by_percentage(origin_im, percentage):
 
 def _detect_circles(filepath):
     tempfile_name = "wait_for_detect.bmp"
-    origin_im = Image.open(filepath)
+    # XXX For to not work in black-white??
+    origin_im = Image.open(filepath, mode="r").convert('L')
     im_blurred = origin_im.filter(ImageFilter.GaussianBlur(radius=10))
     im_blurred.save(tempfile_name)
 
@@ -33,12 +34,12 @@ def _detect_circles(filepath):
     circles = np.uint16(np.around(circles))
 
     two_circles = []
-    for i in circles[0,:]:
+    for i in circles[0, :]:
         two_circles.append((i[0], i[1], i[2]))
 
     top_circle = two_circles[0]
     bottom_circle = two_circles[1]
-    if top_circle[1] > bottom_circle[1]: #[0] => width, [1] => height
+    if top_circle[1] > bottom_circle[1]:  #[0] => width, [1] => height
         temp = bottom_circle
         bottom_circle = top_circle
         top_circle = temp

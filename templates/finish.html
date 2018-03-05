@@ -11,7 +11,8 @@
     font-family: {{ font_name }};
     src:
         url(/download/{{ key }}/fontify.woff) format("woff"),
-        url(/download/{{ key }}/fontify.ttf)  format("truetype");
+        url(/download/{{ key }}/fontify.ttf)  format("truetype"),
+        url(/download/{{ key }}/fontify.otf)  format("opentype");
 }
 textarea {
     font-family: {{ font_name }}, sans-serif;
@@ -32,8 +33,9 @@ textarea {
     <p>Add the following lines to your CSS:</p>
     <pre>@font-face {
     font-family: {{ font_name }};
-    src: url(fontify.ttf) format('ttf')
-         url(fontify.woff) format('woff');
+    src: url(fontify.ttf) format('truetype'),
+         url(fontify.woff) format('woff'),
+         url(fontify.otf) format('opentype');
 }
 
 /* Then use {{ font_name }} like this: */

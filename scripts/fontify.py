@@ -58,15 +58,20 @@ def process(tmpdir, images, font_name):
     bmp_to_svg.bmp_to_svg(tmpdir)
     # 4. Then use the fontforge script svgs2ttf
     scriptdir = os.path.realpath(os.path.dirname(__file__))
-    sh_fullpath = os.path.join(scriptdir, 'svg_to_ttf.sh')
+    svg_to_ttf_fullpath = os.path.join(scriptdir, 'svg_to_ttf.sh')
     svgdir = os.path.join(tmpdir, 'svg')
     subprocess.call(
-        [sh_fullpath, font_name, svgdir, os.path.join(tmpdir, 'fontify.ttf')],
+        [svg_to_ttf_fullpath, font_name, svgdir, os.path.join(tmpdir, 'fontify.ttf')],
         cwd=scriptdir
     )
-    # 5. Finally use the npm script ttf2woff to also generate a .woff file
+    # 5.c. Finally use the npm script ttf2woff to also generate a .woff file
     subprocess.call(
         ['ttf2woff', os.path.join(tmpdir, 'fontify.ttf'), os.path.join(tmpdir, 'fontify.woff')],
+    )
+    # 5.b. Finally and the Python script woff2otf to also generate a .woff file
+    woff2otf_fullpath = os.path.join(scriptdir, "third-party", "woff2otf")
+    subprocess.call(
+        [woff2otf_fullpath, os.path.join(tmpdir, 'fontify.woff')],
     )
 
 

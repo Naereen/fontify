@@ -24,12 +24,14 @@ PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 EXTENDED = False
 EXTENDED = True
 
+FULL = False
+
 CROPPED_IMG_NAME = "cropped_picture"
 CROPPED_IMG_EXT = "bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
-def get_flat_chars(extended=EXTENDED):
+def get_flat_chars(extended=EXTENDED, full=FULL):
     # ASCII letters
     chars  = unicode(string.lowercase)
     chars += unicode(string.uppercase)
@@ -39,26 +41,27 @@ def get_flat_chars(extended=EXTENDED):
         chars += unicode(string.punctuation)
     else:
         # Punctuations and symbols
-        chars += unicode(u"!?\"$&%'(),-.:;")
-        chars += unicode(u"/\\#~{}[]|_@+*`")
+        chars += unicode(u"!?\"$&'(),-.:;")
+        chars += unicode(u"/\\#~{}[]|_@+*`§%^")
         # French and Spanish accents
         chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
         chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
         # Some basic ligatures
         chars += unicode(u"æœßÆŒ")
         # non ASCII symbols (currency etc)
-        chars += unicode(u"£€…¡«»¿")
+        chars += unicode(u"£€…¡¿")
+        chars += unicode(u"«»‘’“”")
         # Greek upper and lower
         chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
         chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")
-        return chars
-        # FIXME remove when done testing!
+        if not full:
+            return chars
         # Special ligatures
         # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
         chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
         chars += unicode(u"🙰")
         # non ASCII symbols (currency etc)
-        chars += unicode(u"¥₩₹₺₽元‘’“”")
+        chars += unicode(u"¥₩₹₺₽元")
         # Greek special caracters, nobody use that
         # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
         # Maths

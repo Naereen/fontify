@@ -241,4 +241,8 @@ def upload_file():
     return ''
 
 if __name__ == "__main__":
+    for dirname in ["upload", "download"]:
+        if not os.path.isdir(dirname):
+            print("Directory {} is absent... creating it.".format(dirname))  # DEBUG
+            os.mkdir(dirname)
     app.run(debug=True, host='0.0.0.0')

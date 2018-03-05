@@ -60,18 +60,34 @@ def process(tmpdir, images, font_name):
     scriptdir = os.path.realpath(os.path.dirname(__file__))
     svg_to_ttf_fullpath = os.path.join(scriptdir, 'svg_to_ttf.sh')
     svgdir = os.path.join(tmpdir, 'svg')
-    subprocess.call(
-        [svg_to_ttf_fullpath, font_name, svgdir, os.path.join(tmpdir, 'fontify.ttf')],
+    ttf = os.path.join(tmpdir, 'fontify.ttf')
+    subprocess.call([
+            svg_to_ttf_fullpath,
+            font_name,
+            svgdir,
+            ttf,
+        ],
         cwd=scriptdir
     )
     # 5.c. Finally use the npm script ttf2woff to also generate a .woff file
-    subprocess.call(
-        ['ttf2woff', os.path.join(tmpdir, 'fontify.ttf'), os.path.join(tmpdir, 'fontify.woff')],
+    woff = os.path.join(tmpdir, 'fontify.woff')
+    print("Converting from {} to {}...".format(ttf, woff))  # DEBUG
+    subprocess.call([
+        'ttf2woff',
+        ttf,
+        woff
+        ],
+        # cwd=scriptdir
     )
-    # 5.b. Finally and the Python script woff2otf to also generate a .woff file
-    woff2otf_fullpath = os.path.join(scriptdir, "third-party", "woff2otf")
-    subprocess.call(
-        [woff2otf_fullpath, os.path.join(tmpdir, 'fontify.woff')],
+    # 5.b. Finally and the Python script woff2otf to also generate a .otf file
+    otf = os.path.join(tmpdir, 'fontify.otf')
+    print("Converting from {} to {}...".format(woff, otf))  # DEBUG
+    woff2otf_fullpath = os.path.join(scriptdir, "third-party", "woff2otf", "woff2otf.py")
+    subprocess.call([
+        woff2otf_fullpath,
+        woff,
+        ],
+        # cwd=scriptdir
     )
 
 

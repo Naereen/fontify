@@ -25,7 +25,7 @@ metadata = {
         "ascent": 800,
         "descent": 200,
         "em": 1000,  # XXX default
-        # "em": 900,  # XXX try to reduce horizontal lengths of each glyph
+        # "em": 800,  # XXX try to reduce horizontal lengths of each glyph
         "encoding": "UnicodeFull",
         "lang": "English (US)",
         "style": style,

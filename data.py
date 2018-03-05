@@ -39,7 +39,7 @@ def get_flat_chars(extended=EXTENDED):
         chars += unicode(string.punctuation)
     else:
         # Punctuations and symbols
-        chars += unicode(u"!?\"$&'(),-.:;")
+        chars += unicode(u"!?\"$&%'(),-.:;")
         chars += unicode(u"/\\#~{}[]|_@+*`")
         # French and Spanish accents
         chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")

@@ -12,25 +12,31 @@ prettydate = '{:%H:%M, %d %B %Y}'.format(datetime.today()).title()  #: Month.Yea
 
 from data import get_flat_chars
 
+# sys arguments
+family = sys.argv[1]
+input = sys.argv[2]
+output = sys.argv[3]
+style = sys.argv[4] if len(sys.argv) > 4 else "Regular"
+
 metadata = {
     # Cf. https://fontforge.github.io/python.html#Font
     # And https://stackoverflow.com/a/27631737/ can help
     "props": {
         "ascent": 800,
         "descent": 200,
-        # "em": 1000,  # XXX default
-        "em": 900,  # XXX try to reduce horizontal lengths of each glyph
+        "em": 1000,  # XXX default
+        # "em": 900,  # XXX try to reduce horizontal lengths of each glyph
         "encoding": "UnicodeFull",
         "lang": "English (US)",
-        "style": sys.argv[4],
-        "family": sys.argv[1],
-        "familyname": sys.argv[1],
-        "fontname": "{}-{}".format(sys.argv[1], sys.argv[4]),
-        "fullname": "{} {}".format(sys.argv[1], sys.argv[4]),
+        "style": style,
+        "family": family,
+        "familyname": family,
+        "fontname": "{}-{}".format(family, style),
+        "fullname": "{} {}".format(family, style),
         "comment": "Created the {}, using the MIT-licensed open-source Python software Fontify, see https://github.com/Naereen/fontify".format(prettydate),
     },
-    "input": sys.argv[2],
-    "output": [sys.argv[3]],
+    "input": input,
+    "output": [output],
     "glyphs": {}
 }
 

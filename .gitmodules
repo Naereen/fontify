@@ -1,3 +1,6 @@
 [submodule "scripts/third-party/svgs2ttf"]
 	path = scripts/third-party/svgs2ttf
-	url = https://github.com/fontify/svgs2ttf.git
+	url = https://github.com/Naereen/svgs2ttf.git
+[submodule "scripts/third-party/woff2otf"]
+	path = scripts/third-party/woff2otf
+	url = https://github.com/Naereen/woff2otf

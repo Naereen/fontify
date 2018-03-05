@@ -184,6 +184,7 @@ def upload_file():
 
             if filename.endswith('.pdf'):
                 filename_png = filename.replace('.pdf', '.png')
+                print("Converting '{}' to '{}'...".format(filename, filename_png))  # DEBUG
                 return_code = subprocess.call([
                     "convert",
                     "-density", str(DPI),
@@ -196,8 +197,9 @@ def upload_file():
                 filename = filename_png
                 filenames = [filename]
                 if not os.path.exists(filename):
-                    filenames = glob.glob(filename.replace('.png', '-[0-9]*.png'))
+                    filenames = sorted(glob.glob(filename.replace('.png', '-[0-9]*.png')))
                     for image in filenames:
+                        print("Converting '{}' with colours to '{}' in gray scale...".format(image, image))  # DEBUG
                         return_code = subprocess.call([
                             "convert",
                             "-set", "colorspace", "Gray",
@@ -210,6 +212,7 @@ def upload_file():
 
             # now convert to black-white only!
             for image in filenames:
+                print("Converting '{}' in gray scale to '{}' in black and white (threshold = {})...".format(image, image, THRESHOLD))  # DEBUG
                 return_code = subprocess.call([
                     "convert",
                     "-threshold", "{}%".format(THRESHOLD),

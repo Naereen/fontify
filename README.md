@@ -25,6 +25,7 @@ git submodule update
 2. Install the dependencies
 
 ```shell
+sudo apt-get install potrace
 sudo apt-get install imagemagick
 sudo apt-get install fontforge
 sudo apt-get install wkhtmltopdf

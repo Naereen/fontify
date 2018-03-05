@@ -39,28 +39,30 @@ def get_flat_chars(extended=EXTENDED):
         chars += unicode(string.punctuation)
     else:
         # Punctuations and symbols
-        chars += unicode(u"!\"$&'(),-.:;?")
+        chars += unicode(u"!?\"$&'(),-.:;")
         chars += unicode(u"/\\#~{}[]|_@+*`")
-        # Some basic ligatures
-        chars += unicode(u"æœßÆŒ")
-        # Special ligatures
-        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
-        chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
-        chars += unicode(u"ΦΧΨΩφχψωℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
-        return chars
-        # FIXME remove when done testing!
-        chars += unicode(u"🙰")
         # French and Spanish accents
         chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
         chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
+        # Some basic ligatures
+        chars += unicode(u"æœßÆŒ")
         # non ASCII symbols (currency etc)
-        chars += unicode(u"£¥₩€₹₺₽元…¡«»¿‘’“”")
+        chars += unicode(u"£€…¡«»¿")
         # Greek upper and lower
         chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
         chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")
+        return chars
+        # FIXME remove when done testing!
+        # Special ligatures
+        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
+        chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
+        chars += unicode(u"🙰")
+        # non ASCII symbols (currency etc)
+        chars += unicode(u"¥₩₹₺₽元‘’“”")
         # Greek special caracters, nobody use that
         # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
         # Maths
+        # chars += unicode(u"ΦΧΨΩφχψωℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
         chars += unicode(u"°ℕℝℂℙℤℚ±×÷ø–—‰′″‴→↓↑←↔⇒⇔∀∂∃∅∇∈∉∏∑√∛∝∞∧∨∩∪∫∬∭∮∯∰∴∵≈≝≠≡≤≥≪≫⊂⊃⊄⊆⊈⊕")
     return chars
 

@@ -2,6 +2,7 @@ body {
 	font-family: "SF UI Text", sans-serif;
 	display: inline-block;
 	position: relative;
+	font-size: 135%;
 	padding: 30px;
 }
 
@@ -56,7 +57,7 @@ th, td {
 }
 
 .sample-char {
-	color: #ccc;
+	color: #ddd;
 	font-family: Georgia;
 	font-style: italic;
 	text-align: center;
@@ -75,13 +76,13 @@ th, td {
 }
 
 .upper {
-	top: 0px;
+	top: 9px;
 	left: 0px;
 }
 
 .lower {
-	bottom: 0px;
-	right: 0px;
+	bottom: -20px;
+	right: -20px;
 }
 
 /* From https://stackoverflow.com/a/39526518/ */

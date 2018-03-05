@@ -2,8 +2,10 @@
 # -*- coding: utf8 -*-
 from __future__ import print_function
 import os
+from collections import Counter
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import misc
 from PIL import Image
 from scipy import ndimage
 import cv2
@@ -11,7 +13,7 @@ import cv2
 from data import COLUMNS, ROWS, get_chars, get_chars_by_page
 
 
-def postprocess_char(im_char, debug=False):
+def postprocess_char_complex_and_save(im_char, glyph_path, debug=False):
     """See http://www.scipy-lectures.org/advanced/image_processing/auto_examples/plot_propagation.html"""
     np_im_char = np.array(im_char)
     input_shape = np.shape(np_im_char)
@@ -25,11 +27,13 @@ def postprocess_char(im_char, debug=False):
 
     open_im = ndimage.binary_opening(1 - np_im_char)
 
-    eroded_im = ndimage.binary_erosion(1 - np_im_char)
-    reconstruction = ndimage.binary_propagation(eroded_im, mask=1 - np_im_char)
+    eroded_im = ndimage.binary_erosion(1 - np_im_char, iterations=3)
 
-    final_reconstruction = 1 - ndimage.binary_opening(1 - reconstruction)
-    np_im_output = np.array((1 - final_reconstruction), dtype=np.bool).reshape(input_shape)
+    reconstruction = ndimage.binary_propagation(eroded_im, mask=1 - np_im_char)
+    np_im_output = np.array((1 - reconstruction), dtype=np.bool).reshape(input_shape)
+
+    # final_reconstruction = 1 - ndimage.binary_opening(1 - reconstruction)
+    # np_im_output = np.array((1 - final_reconstruction), dtype=np.bool).reshape(input_shape)
     if debug:
         print("type(np_im_output) =", type(np_im_output))  # DEBUG
         print("np.shape(np_im_output) =", np.shape(np_im_output))  # DEBUG
@@ -41,69 +45,73 @@ def postprocess_char(im_char, debug=False):
         plt.clf()
         plt.subplot(151)
         plt.imshow(np_im_char, cmap=plt.cm.gray, interpolation='nearest')
+        plt.axis('off')
+        plt.title("input")
         plt.subplot(152)
         plt.imshow(1 - open_im, cmap=plt.cm.gray, interpolation='nearest')
+        plt.axis('off')
+        plt.title("1 - open")
         plt.subplot(153)
         plt.imshow(1 - eroded_im, cmap=plt.cm.gray, interpolation='nearest')
+        plt.axis('off')
+        plt.title("1 - eroded")
         plt.subplot(154)
         plt.imshow(1 - reconstruction, cmap=plt.cm.gray, interpolation='nearest')
+        plt.axis('off')
+        plt.title("1 - reconstruction")
         plt.subplot(155)
         plt.imshow(np_im_output, cmap=plt.cm.gray, interpolation='nearest')
+        plt.axis('off')
+        plt.title("output")
         print("np.mean(np.abs(np_im_char - np_im_output)) =", np.mean(np.abs(np.asarray(np_im_char, dtype=np.int) - np.asarray(np_im_output, dtype=np.int))))  # DEBUG
         plt.show()
         plt.draw()
 
-    # np_im_char[:] = np_im_output[:]
-    # np_im_char[0:10,0:10] = 1.0
-    # np_im_output[:] = np_im_char[:]
+    misc.imsave(glyph_path, np.asarray(np_im_output, dtype=np.int))
 
-    # xs = np.where(np_im_char == np_im_output)[0]
-    # ys = np.where(np_im_char == np_im_output)[1]
-    # for x, y in zip(xs, ys):
-    #     np_im_char[x, y] = np_im_output[x, y]
+    # # im_output = Image.fromarray(np_im_char, mode='L')
+    # im_output = Image.fromarray(np_im_output, mode='L')
+    # return im_output
 
-    # for x in np.arange(input_shape[0]):
-    #     for y in np.arange(input_shape[1]):
-    #         # print("x = {}, y = {}, pixel {} and {}...".format(x, y, np_im_char[x, y], np_im_output[x, y]))  # DEBUG
-    #         np_im_char[x, y] = np_im_output[x, y]
 
-    # xs = np.where(np_im_char != np_im_output)[0]
-    # ys = np.where(np_im_char != np_im_output)[1]
-    # for x, y in zip(xs, ys):
-    #     print("x = {}, y = {}, pixel from {} to {}...".format(x, y, np_im_char[x, y], np_im_output[x, y]))  # DEBUG
-    #     np_im_char[x, y] = np_im_output[x, y]
+def postprocess_char_old(im_char, debug=False, deltay=3):
+    np_im_char = np.array(im_char)
+
+    c = Counter(list(np_im_char.flatten()))
+    default_pixel = c[True] > c[False]
+
+    if debug:
+        print("im_char.mode =", im_char.mode)  # DEBUG
+        print("type(im_char) =", type(im_char))  # DEBUG
+        print("type(np_im_char) =", type(np_im_char))  # DEBUG
+        print("np.shape(np_im_char) =", np.shape(np_im_char))  # DEBUG
+        print("np_im_char.dtype =", np_im_char.dtype)  # DEBUG
+        print("np.min(np_im_char) =", np.min(np_im_char))  # DEBUG
+        print("np.max(np_im_char) =", np.max(np_im_char))  # DEBUG
+        print("set(np_im_char.flatten()) =", set(np_im_char.flatten()))  # DEBUG
+        print("Counter(list(np_im_char.flatten())) =", c)  # DEBUG
+        print("Default pixel =", default_pixel)  # DEBUG
+
+    # Manually erasing top and bottom lines!
+    top_and_bottom = list(range(deltay)) + list(range(-1, -1-deltay, -1))
+    for i in top_and_bottom:
+        c = Counter(np_im_char[i, :])
+        print("Counter(np_im_char[{}, :]) =".format(i), Counter(np_im_char[i, :]))  # DEBUG
+        # if c[False] > 0 and c[True] > 0:
+        # print("  From: np_im_char[{},:]".format(i), np_im_char[i,:])  # DEBUG
+        # np_im_char[i, :] = c[True] >= c[False]  # just use the most present value?
+        np_im_char[i, :] = default_pixel  # just use the most present value?
+        # print("  To:   np_im_char[{},:]".format(i), np_im_char[i,:])  # DEBUG
+
+    if debug:
+        print("Some pixels were changed...")  # DEBUG
+        print("Counter(list(np_im_char.flatten())) =", Counter(list(np_im_char.flatten())))  # DEBUG
 
     im_output = Image.fromarray(np_im_char, mode='L')
-    # im_output = Image.fromarray(np_im_output, mode='L')
     return im_output
 
 
-NORMALIZE = 1
-NORMALIZE = 255
-
-
-def smooth_and_thicken(im_char, normalize=NORMALIZE):
-    """ See https://stackoverflow.com/a/37410236/"""
-    _blur = ((1, 1), 1)
-    _erode = (1, 1)
-    _dilate = (1, 1)
-    np_im_char = np.asarray(im_char)
-    if normalize != 1:
-        im_input = np_im_char / normalize
-    else:
-        im_input = np_im_char
-    im_blurred = cv2.GaussianBlur(im_input, _blur[0], _blur[1])
-    im_eroded = cv2.erode(im_blurred, np.ones(_erode))
-    im_dilated = cv2.dilate(im_eroded, np.ones(_dilate))
-    if normalize != 1:
-        np_im_output = im_dilated * normalize
-    else:
-        np_im_output = im_dilated
-    im_output = Image.fromarray(np.uint8(np_im_output))
-    return im_output
-
-
-def cut(page, filepath, postprocess=True):
+def cut(page, filepath, postprocess=True, debug=False):
     im = Image.open(filepath)
     imdir = os.path.dirname(filepath)
     if imdir == "":
@@ -134,6 +142,14 @@ def cut(page, filepath, postprocess=True):
     height_limit = cell_height * ROWS
     print("height_limit =", height_limit)  # DEBUG
 
+    bar_height = int(cell_height * 0.26)
+    print("bar_height =", bar_height)  # DEBUG
+    margin_width = int(cell_width * 0.09)
+    print("margin_width =", margin_width)  # DEBUG
+    margin_height_top = int(cell_height * 0.010)
+    print("margin_height_top =", margin_height_top)  # DEBUG
+    margin_height_bottom = int(cell_height * 0.02)
+    print("margin_height_bottom =", margin_height_bottom)  # DEBUG
 
     for i in range(0, height_limit, cell_height):
         for j in range(0, width_limit, cell_width):
@@ -141,33 +157,25 @@ def cut(page, filepath, postprocess=True):
             if char == ' ':
                 return
             print(u"\ni =", i, "j =", j, "char =", char)  # DEBUG
-            bar_height = int(cell_height * 0.28333)
-            print("bar_height =", bar_height)  # DEBUG
-            margin_width = int(cell_width * 0.1)
-            print("margin_width =", margin_width)  # DEBUG
-            margin_height_top = int(cell_height * 0.005)
-            print("margin_height_top =", margin_height_top)  # DEBUG
-            margin_height_bottom = int(cell_height * 0.01)
-            print("margin_height_bottom =", margin_height_bottom)  # DEBUG
-            char_im = im.crop(
-                (
+            # Coordinates as [ymin, xmin, ymax, xmax] rectangle
+            coordinates = (
                     j + margin_width,
                     i + bar_height + margin_height_top,
                     j + cell_width - margin_width,
                     i + cell_height - margin_height_bottom
                 )
-            )
+            print("\tUsing a square of coordinates, ", coordinates)  # DEBUG
+            char_im = im.crop(coordinates)
             glyph_path = os.path.join(bmp_dir, "{}.bmp".format(hex(ord(char))))
 
-            # FIXME try to do your best job at postprocessing the image!
             if postprocess:
-                new_char_im = postprocess_char(char_im)
+                postprocess_char_complex_and_save(char_im, glyph_path)
             else:
-                new_char_im = char_im
+                char_im.save(glyph_path)
 
-            new_char_im.save(glyph_path)
             print(u"Saved char '{}' at index i, j = {}, {} to file '{}'...".format(char, i, j, glyph_path))  # DEBUG
-            # print(raw_input("[Enter to continue]"))  # DEBUG
+            if debug:
+                print(raw_input("[Enter to continue]"))  # DEBUG
 
 
 if __name__ == "__main__":

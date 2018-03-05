@@ -5,13 +5,21 @@ import json
 import os
 import re
 
+from datetime import datetime
+import locale  # See this bug, http://numba.pydata.org/numba-doc/dev/user/faq.html#llvm-locale-bug
+locale.setlocale(locale.LC_TIME, 'C')
+prettydate = '{:%H:%M, %d %B %Y}'.format(datetime.today()).title()  #: Month.Year date
+
 from data import get_flat_chars
 
 metadata = {
+    # Cf. https://fontforge.github.io/python.html#Font
+    # And https://stackoverflow.com/a/27631737/ can help
     "props": {
         "ascent": 800,
         "descent": 200,
-        "em": 1000,
+        # "em": 1000,  # XXX default
+        "em": 900,  # XXX try to reduce horizontal lengths of each glyph
         "encoding": "UnicodeFull",
         "lang": "English (US)",
         "style": sys.argv[4],
@@ -19,6 +27,7 @@ metadata = {
         "familyname": sys.argv[1],
         "fontname": "{}-{}".format(sys.argv[1], sys.argv[4]),
         "fullname": "{} {}".format(sys.argv[1], sys.argv[4]),
+        "comment": "Created the {}, using the MIT-licensed open-source Python software Fontify, see https://github.com/Naereen/fontify".format(prettydate),
     },
     "input": sys.argv[2],
     "output": [sys.argv[3]],

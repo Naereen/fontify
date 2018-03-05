@@ -44,7 +44,10 @@ def _detect_circles(filepath):
         bottom_circle = top_circle
         top_circle = temp
 
-    return top_circle, bottom_circle
+    # XXX I changed the template to move the bottom circle below
+    # so the last letter does not have a quarter-circle in it!
+    bottom_circle_delta = (bottom_circle[0] - 40, bottom_circle[1] - 40)
+    return top_circle, bottom_circle_delta
 
 
 def _restore_if_tilt(filepath, rotate=True, smartrotate=False):

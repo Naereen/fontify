@@ -25,7 +25,8 @@ run:	activate
 	python wsgi.py
 
 test_pdf:
-	xelatex test.tex
-	xelatex test.tex
-	-rm -vf test.aux test.fls test.log test.fdb_latexmk test.synctex.gz
+	xelatex static/test.tex
+	xelatex static/test.tex
+	-rm -vf static/test.aux static/test.fls static/test.log static/test.fdb_latexmk static/test.synctex.gz
 	# xdg-open test.pdf &
+	CP static/test.pdf ${Szam}publis/latex/test_handwritten_font_with_fontify.pdf

@@ -12,3 +12,6 @@ pdf:
 clean:
 	latexmk -c
 	rm -vf *.bbl *.synctex.gz *.loa
+
+send_zamok:
+	CP test.pdf ${Szam}publis/latex/test_handwritten_font_with_fontify.pdf

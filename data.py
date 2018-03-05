@@ -62,11 +62,12 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
         chars += unicode(u"🙰")
         # non ASCII symbols (currency etc)
         chars += unicode(u"¥₩₹₺₽元")
-        # Greek special caracters, nobody use that
-        # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΪΫάέήίΰϊϋόύώ")
+        # Greek special caracters, nobody use that!
+        # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΰ")
+        chars += unicode(u"ΪΫάέήίϊϋόύώ")
         # Maths
-        # chars += unicode(u"ΦΧΨΩφχψωℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
-        chars += unicode(u"°ℕℝℂℙℤℚ±×÷ø–—‰′″‴→↓↑←↔⇒⇔∀∂∃∅∇∈∉∏∑√∛∝∞∧∨∩∪∫∬∭∮∯∰∴∵≈≝≠≡≤≥≪≫⊂⊃⊄⊆⊈⊕")
+        chars += unicode(u"ℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
+        chars += unicode(u"°±×÷ø–—‰′″‴→↓↑←↔⇒⇔∈∉∏∑√∛∝∞∧∨∬∭∮∯∰∴∵≈≝≠≡≪≫⊄⊆⊈⊕")
     return chars
 
 
@@ -82,7 +83,6 @@ def get_grouped_chars():
 
 
 def get_chars():
-    # mDIM, MDIM = min(ROWS, COLUMNS), max(ROWS, COLUMNS)
     chars = get_grouped_chars()
     chars[-1] = chars[-1].ljust(COLUMNS)
     chars.extend([
@@ -134,4 +134,3 @@ def get_chars_by_page(hack_for_last_bottom_right_cell=False):
 
 def get_sample_chars():
     return iter(u"AaΩω")
-    # return iter("AaBb")

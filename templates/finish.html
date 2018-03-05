@@ -3,8 +3,9 @@
 
 {% block body %}
 <h2 id="ready-to-use">Your font is ready to use!</h2>
-<a href="/download/{{ key }}/fontify.ttf"><button class="btn btn-success">Download <code>.ttf</code> file</button></a>
-<a href="/download/{{ key }}/fontify.woff"><button class="btn btn-success">Download <code>.woff</code> file</button></a>
+    <a href="/download/{{ key }}/fontify.ttf"><button class="btn btn-success">Download <code>.ttf</code> file</button></a>
+    <a href="/download/{{ key }}/fontify.woff"><button class="btn btn-success">Download <code>.woff</code> file</button></a>
+    <a href="/download/{{ key }}/fontify.otf"><button class="btn btn-success">Download <code>.otf</code> file</button></a>
 
 <style type="text/css">
 @font-face {
@@ -17,7 +18,7 @@
 textarea {
     font-family: {{ font_name }}, sans-serif;
     font-size: 30px;
-    height: 250px;
+    height: 100px;
     width: 90%;
 }
 </style>
@@ -25,7 +26,18 @@ textarea {
 <div class="playground">
     <h2>Playground</h2>
     <p>See your own font in action!</p>
-    <textarea placeholder="The quick brown fox jumps over the lazy dog. 0123456789. ; : ! ? / & ~ # ' { ( [ - | _ \\ @ ) ] } = + Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera ! Ligatures : ae æ, oe œ, fs ß, AE Æ, OE Œ, ff ﬀ, fi ﬁ, fl ﬂ, ffi ﬃ, ffl ﬄ, ft ﬅ, st ﬆ etc… Greek : Φ Χ Ψ Ω and φ χ ψ ω. Maths: ℕ ℝ ℂ ℙ ℤ ℚ and ∀ ∂ ∃ ∅ ∇ and ∩ ∪ ∫ and ≠ ≤ ≥ ⊂ ⊃ "></textarea>
+    <p>English:</p>
+    <textarea placeholder="The quick brown fox jumps over the lazy dog. 0123456789. ; : ! ? / & ~ # ' { ( [ - | _ \\ @ ) ] } = +"></textarea>
+    <p>French :</p>
+    <textarea placeholder="Dès noël où un zéphyr haï me vêt de glaçons würmiens je dîne d’exquis rôtis de bœuf au kir à l’aÿ d’âge mûr &amp; cætera !"></textarea>
+    <p>Accents :</p>
+    <textarea placeholder="à á â ä ç è é ê ë î í ï ñ ò ó ô ö ŷ ÿ ù ú ü û and  À Á Â Ä Ç È É Ê Ë Î Í Ï Ñ Ò Ó Ô Ö Ŷ Ÿ Ù Ú Ü Û."></textarea>
+    <p>(Experimental) ligatures</p>
+    <textarea placeholder="ae æ, oe œ, fs ß, AE Æ, OE Œ, ff ﬀ, fi ﬁ, fl ﬂ, ffi ﬃ, ffl ﬄ, ft ﬅ, st ﬆ etc…"></textarea>
+    <p>Greek</p>
+    <textarea placeholder="α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω and Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω."></textarea>
+    <p>(Experimental) Maths</p>
+    <textarea placeholder="ℕ ℝ ℂ ℙ ℤ ℚ and ∀ ∂ ∃ ∅ ∇ and ∩ ∪ ∫ and ≠ ≤ ≥ ⊂ ⊃ "></textarea>
 </div>
 
 <div class="use-font">

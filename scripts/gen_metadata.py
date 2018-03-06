@@ -53,11 +53,24 @@ for c in chars:
     with open(svg_path) as f:
         content = f.read()
         result = re.search('width="(\d+\.\d+)pt"', content)
-        width = float(result.groups()[0]) / 72 * 1000
+        width = float(result.groups()[0]) / 72. * 1000
 
     metadata["glyphs"][glyph_key] = {
         "src": svg_name,
-        "width": width
+        "width": width,
+        # # https://fontforge.github.io/en-US/documentation/scripting/python/#g-addAnchorPoint
+        # # ("anchor-class-name", "type", "x", "y", "ligature-index")
+        # 1. for a ligature of 2 characters
+        # "anchorPoints": [
+        #     ("anchor-class-name", "ligature", 0, 0, 0),
+        #     ("anchor-class-name", "ligature", width/2., 0, 1),
+        # ]
+        # 2. for a ligature of 3 characters
+        # "anchorPoints": [
+        #     ("anchor-class-name", "ligature", 0, 0, 0),
+        #     ("anchor-class-name", "ligature", width/3., 0, 1),
+        #     ("anchor-class-name", "ligature", 2. * width/3., 0, 2),
+        # ]
     }
 
 print(json.dumps(metadata, indent=2))

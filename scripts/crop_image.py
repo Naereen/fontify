@@ -22,7 +22,7 @@ def crop_by_percentage(origin_im, percentage):
 
 def _detect_circles(filepath):
     tempfile_name = "wait_for_detect.bmp"
-    # XXX For to not work in black-white??
+    # XXX It does not work in black-white??
     origin_im = Image.open(filepath, mode="r").convert('L')
     im_blurred = origin_im.filter(ImageFilter.GaussianBlur(radius=10))
     im_blurred.save(tempfile_name)

@@ -11,8 +11,9 @@ locale.setlocale(locale.LC_TIME, 'C')
 prettydate = '{:%H:%M, %d %B %Y}'.format(datetime.today()).title()  #: Month.Year date
 
 from data import get_flat_chars
+from data import get_flat_ligatures  # FIXME add support for ligatures
 
-# sys arguments
+# sys arguments  # FIXME use a cli parser?
 family = sys.argv[1]
 input = sys.argv[2]
 output = sys.argv[3]

@@ -15,6 +15,7 @@ import cut_into_multiple_images
 import bmp_to_svg
 import data
 from data import get_chars_by_page
+from data import get_ligatures_by_page  # FIXME add support for ligatures
 
 
 def check_input(images):

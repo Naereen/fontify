@@ -10,7 +10,9 @@ from PIL import Image
 from scipy import ndimage
 import cv2
 
-from data import COLUMNS, ROWS, get_chars, get_chars_by_page
+from data import COLUMNS, ROWS
+from data import get_chars_by_page
+from data import get_ligatures_by_page  # FIXME add support for ligatures
 
 
 def postprocess_char_complex_and_save(im_char, glyph_path, debug=False):
@@ -131,7 +133,6 @@ def cut(page, filepath, postprocess=True, debug=False):
     print("image_width, image_height =", image_width, image_height)  # DEBUG
 
     chars_by_page = get_chars_by_page()
-    # chars = get_chars()
     chars = chars_by_page[page]
 
     COLUMNS, ROWS = len(chars[0]), len(chars)

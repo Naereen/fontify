@@ -98,7 +98,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     return chars
 
 
-def get_flat_ligatures():
+def get_flat_ligatures(extended=EXTENDED, full=FULL):
     """ Return a list of unicode characters for each ligature."""
     ligatures = []
     # ligatures += [u"ﬀ", u"ﬁ", u"ﬂ", u"ﬃ", u"ﬄ", u"ﬅ", u"ﬆ", u"🙰"]
@@ -107,7 +107,10 @@ def get_flat_ligatures():
     ligatures += [u"fa", u"fe", u"fj", u"fo", u"fr", u"fs", u"ft", u"fft", u"fb", u"ffb", u"fh", u"ffh", u"fu", u"fy"]
     ligatures += [u"ij", ]
     ligatures += [u"ct", u"ch", u"ck", u"tt", ]
-    # and now from FiraCode, line by line from https://github.com/tonsky/FiraCode/#solution
+    if not extended:
+        return ligatures
+    # and now from FiraCode, line by line, code-related ligatures
+    # from https://github.com/tonsky/FiraCode/#solution
     ligatures += [u".=", u"..=", u".-", u":=", u"=:=", u"=!=", u"__", ]
     ligatures += [u"==", u"!=", u"===", u"!==", u"=/=", ]
 
@@ -142,6 +145,14 @@ def get_flat_ligatures():
     ligatures += [u"-|", u"_|_", u"|-", u"|=", u"||=", ]
     ligatures += [u"#!", u"#=", u"##", u"#:", u"###", u"####", u"#####", u"######", ]  # mine also
     ligatures += [u"#{", u"#}", u"#[", u"]#", u"#(", u"#)", u"#?", u"#_", u"#_(", u"#_)", ]  # some are extra
+
+    if not full:
+        return ligatures
+
+    # mine, extra... LaTeX related
+    ligatures += [u"TeX", u"LaTeX", u"KaTeX", u"XeLaTeX", ]
+    # FIXME don't do that... please...
+    ligatures += [u"Lilian", u"Besson", u"Naereen", ]
 
     return ligatures
 

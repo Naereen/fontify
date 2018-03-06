@@ -66,20 +66,29 @@ def finish():
     )
 
 
-# DEBUG Just to debug the template
-@app.route("/template_html")
-def template_html():
+# --- DEBUG just to debug the template
+
+def _template_html(get_inputs, get_sample_inputs):
     return render_template(
         'template.html',
-        chars=get_chars(),
-        sample=get_sample_chars(),
+        chars=get_inputs(),
+        sample=get_sample_inputs(),
         css='static/css/template.css'
     )
 
+@app.route("/template_html")
+def template_html():
+    return _template_html(get_chars, get_sample_chars)
 
-@app.route("/template")
-def template():
-    chars_by_page = get_chars_by_page()
+@app.route("/template_ligatures_html")
+def template_ligatures_html():
+    return _template_html(get_ligatures, get_sample_ligatures)
+
+
+# --- PDF template
+
+def _template(get_inputs, get_sample_inputs):
+    chars_by_page = get_inputs_by_page()
     print("Number of pages:", len(chars_by_page))
     pages = []
     # create a fake PDF for each page
@@ -87,7 +96,7 @@ def template():
         html = render_template(
             'template.html',
             chars=chars,
-            sample=get_sample_chars()
+            sample=get_sample_inputs()
         )
         pdf = from_string(
             html,
@@ -109,6 +118,17 @@ def template():
     response.mimetype = 'application/pdf'
     return response
 
+
+@app.route("/template")
+def template():
+    return _template(get_chars, get_sample_chars)
+
+@app.route("/template_ligatures")
+def template_ligatures():
+    return _template(get_ligatures, get_sample_ligatures)
+
+
+# --- demo of LaTeX & PDF document
 
 @app.route('/test.tex')
 def test_tex():

@@ -6,9 +6,11 @@
 - Upload your beautiful handwriting to the webapp,
 - It creates a TrueType font, and let you preview it,
 - If you are happy, save it and start to use it!
-- See [this demo](https://github.com/Naereen/fontify)
+- See [this demo](https://github.com/Naereen/My-Own-HandWritting-Font) showing how a font generated with Fontify can look.
 
 ## Demo
+
+> Here are a few screenshots of the webapp:
 
 ![screenshots/demo1.png](screenshots/demo1.png)
 
@@ -16,10 +18,10 @@
 
 ![screenshots/demo3.png](screenshots/demo3.png)
 
-## Development
+## Development (*only* on Debian/Ubuntu)
 
-> It only works on Python 2, so far.
-> I will try to set up a Docker image to ease this experiment.
+> - It *only* works on Python 2, so far (but I'm almost sure it would also work for Python 3).
+> - I will try to set up a Docker image to ease this experiment.
 
 1. First clone and `cd` into the repository.
 
@@ -71,7 +73,7 @@ ngrok http 5000
 This (small) repository are published under the terms of the [MIT license](http://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
 © [Lilian Besson](https://GitHub.com/Naereen), 2018.
 
-[![Maintenance](https://img.shields.io/badge/Maintenu%3F-oui-green.svg)](https://GitHub.com/Naereen/fontify/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/fontify/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/fontify)
 [![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/fontify/README.md?pixel)](https://GitHub.com/Naereen/fontify/)
 

@@ -38,9 +38,9 @@ def bmp_to_svg(basedir):
                 sys.stderr.write("Error converting %s to binary\n" % infile)
                 continue
             crop_image.crop_char(outfile)
-            if is_white(outfile):
-                print("Skipping empty character", outfile)
-                continue
+            # if is_white(outfile):
+            #     print("Skipping empty character", outfile)
+            #     continue
             infile = outfile
             outfile = os.path.join(basedir, 'svg', name + '.svg')
             print("  and then {} to {}...".format(infile, outfile))  # DEBUG

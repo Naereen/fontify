@@ -42,7 +42,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     else:
         # Punctuations and symbols
         chars += unicode(u"!?\"$&'(),-.:;")
-        chars += unicode(u"/\\#~{}[]|_@+*`§%^")
+        chars += unicode(u"/\\#~{}[]|_@+*`§%^<>")
         # French and Spanish accents
         chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
         chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
@@ -51,7 +51,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
         # non ASCII symbols (currency etc)
         chars += unicode(u"£€…¡¿")
         chars += unicode(u"«»‘’“”")
-        # chars += unicode(u"  ")  # space and unbreakable-space  
+        chars += unicode(u"  ")  # space ' ' and unbreakable-space ' '
         # Greek upper and lower
         chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
         chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")

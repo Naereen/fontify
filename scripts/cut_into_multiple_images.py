@@ -111,7 +111,11 @@ def postprocess_char_old(im_char, debug=False, deltay=3):
     return im_output
 
 
+number_of_time_we_saw_a_space = 0
+
+
 def cut(page, filepath, postprocess=True, debug=False):
+    global number_of_time_we_saw_a_space
     im = Image.open(filepath)
     imdir = os.path.dirname(filepath)
     if imdir == "":
@@ -155,7 +159,9 @@ def cut(page, filepath, postprocess=True, debug=False):
         for j in range(0, width_limit, cell_width):
             char = chars[i / cell_height][j / cell_width]
             if char == ' ':
-                return
+                number_of_time_we_saw_a_space += 1
+                if number_of_time_we_saw_a_space > 1:
+                    return
             print(u"\ni =", i, "j =", j, "char =", char)  # DEBUG
             # Coordinates as [ymin, xmin, ymax, xmax] rectangle
             coordinates = (

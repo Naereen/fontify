@@ -31,6 +31,53 @@ CROPPED_IMG_EXT = "bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
+def get_ligatures():
+    ligatures = []
+    # ligatures += [u"ﬀ", u"ﬁ", u"ﬂ", u"ﬃ", u"ﬄ", u"ﬅ", u"ﬆ", u"🙰"]
+    ligatures += [u"ff", u"fi", u"fl", u"ffi", u"ffl", u"ft", u"st", u"et"]
+    # then from other ligatures
+    ligatures += [u"fa", u"fe", u"fj", u"fo", u"fr", u"fs", u"ft", u"fft", u"fb", u"ffb", u"fh", u"ffh", u"fu", u"fy"]
+    ligatures += [u"ij", ]
+    ligatures += [u"ct", u"ch", u"ck", u"tt", ]
+    # and now from FiraCode, line by line from https://github.com/tonsky/FiraCode/#solution
+    ligatures += [u".=", u"..=", u".-", u":=", u"=:=", u"=!=", u"__", ]
+    ligatures += [u"==", u"!=", u"===", u"!==", u"=/=", ]
+
+    ligatures += [u"<-<", u"<<-", u"<--", u"<-", u"<->", u"->", u"-->", u"->>", u">->", ]
+    ligatures += [u"<=<", u"<<=", u"<==",        u"<=>", u"=>", u"==>", u"=>>", u">=>", ]
+    ligatures += [u">>=", u">>-", u">-", u"<~>", u"-<", u"-<<", u"=<<", ]
+    ligatures += [u"<~~", u"<~", u"~~", u"~>", u"~~>", ]
+
+    ligatures += [u"<<<", u"<<", u"<=", u"<>", u">=", u">>", u">>>", ]
+    ligatures += [u"{.", u"{|", u"[|", u"<:", u":>", u"|]", u"|}", u".}", ]
+    ligatures += [u"<|||", u"<||", u"<|", u"<|>", u"|>", u"||>", u"|||>", ]
+    ligatures += [u"<$", u"<$>", u"$>", ]
+    ligatures += [u"<+", u"<+>", u"+>", ]
+    ligatures += [u"<*", u"<*>", u"*>", ]
+
+    ligatures += [u"/*", u"*/", u"///", u"//", ]
+    ligatures += [u"</", u"<!--", u"</>", u"/>", ]
+
+    # XXX these are harder, we would need to work on contextual vertical align...
+    # ligatures += [u"0xf", u"10x10", ]  # WARNING
+    # ligatures += [u"9:45", u"m+x", u"m-x", u"*ptr", ]  # WARNING
+
+    ligatures += [u";;", u"::", u":::", u"[:]", u"..", u"...", u"..<", ]
+    ligatures += [u"!!", u"??", u"%%", u"&&", u"||", u"?.", u"?:", ]
+    ligatures += [u"++", u"+++", ]
+    ligatures += [u"--", u"---", ]
+    ligatures += [u"**", u"***", ]
+
+    ligatures += [u"~=", u"~-", u"www", u"-~", u"~@", ]
+    ligatures += [u"^=", u"?=", u"/=", u"/==", ]
+    ligatures += [u"+=", u"-=", u"*=", ]  # mine
+    ligatures += [u"-|", u"_|_", u"|-", u"|=", u"||=", ]
+    ligatures += [u"#!", u"#=", u"##", u"#:", u"###", u"####", u"#####", u"######", ]  # mine also
+    ligatures += [u"#{", u"#}", u"#[", u"]#", u"#(", u"#)", u"#?", u"#_", u"#_(", u"#_)", ]  # some are extra
+
+    return ligatures
+
+
 def get_flat_chars(extended=EXTENDED, full=FULL):
     # ASCII letters
     chars  = unicode(string.lowercase)

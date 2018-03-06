@@ -19,6 +19,7 @@
 ## Development
 
 > It only works on Python 2, so far.
+> I will try to set up a Docker image to ease this experiment.
 
 1. First clone and `cd` into the repository.
 
@@ -30,14 +31,10 @@ git submodule init
 git submodule update
 ```
 
-2. Install all the dependencies
+2. Install all the dependencies.
 
 ```shell
-sudo apt-get install potrace
-sudo apt-get install imagemagick
-sudo apt-get install fontforge
-sudo apt-get install wkhtmltopdf
-sudo apt-get install python-opencv
+sudo apt-get install potrace imagemagick fontforge fontforge-extras wkhtmltopdf python-opencv python-fontforge
 npm install -g ttf2woff
 sudo pip2 install --upgrade virtualenv
 ```

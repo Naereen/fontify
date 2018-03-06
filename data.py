@@ -32,44 +32,59 @@ CROPPED_IMG_EXT = "bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
+def _ljust(input, width, fillchar=None):
+    if fillchar is None:
+        fillchar = ' '
+    if isinstance(input, str):
+        return input.ljust(width, fillchar)
+    else:
+        delta_len = width - len(input)
+        if delta_len <= 0:
+            return input
+        else:
+            return input + [fillchar for _ in range(delta_len)]
+
+
 def get_flat_chars(extended=EXTENDED, full=FULL):
     # ASCII letters
-    chars  = unicode(string.lowercase)
-    chars += unicode(string.uppercase)
+    chars  = list(unicode(string.lowercase))
+    chars += list(unicode(string.uppercase))
     # Numbers
-    chars += unicode(string.digits)
+    chars += list(unicode(string.digits))
     if not extended:
-        chars += unicode(string.punctuation)
+        chars += list(unicode(string.punctuation))
     else:
         # Punctuations and symbols
-        chars += unicode(u"!?\"$&'(),-.:;")
-        chars += unicode(u"/\\#~{}[]|_@+*`§%^<>")
+        chars += list(unicode(u"!?\"$&'(),-.:;"))
+        chars += list(unicode(u"/\\#~{}[]|_@+*`§%^<>"))
         # French and Spanish accents
-        chars += unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû")
-        chars += unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ")
+        chars += list(unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû"))
+        chars += list(unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ"))
         # Some basic ligatures
-        chars += unicode(u"æœßÆŒ")
+        chars += list(unicode(u"æœßÆŒ"))
         # non ASCII symbols (currency etc)
-        chars += unicode(u"£€…¡¿")
-        chars += unicode(u"«»‘’“”")
-        chars += unicode(u"  ")  # space ' ' and unbreakable-space ' '
+        chars += list(unicode(u"£€…¡¿"))
+        chars += list(unicode(u"«»‘’“”"))
+        chars += list(unicode(u"  "))  # space ' ' and unbreakable-space ' '
         # Greek upper and lower
-        chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
-        chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")
+        chars += list(unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"))
+        chars += list(unicode(u"αβγδεζηθικλμνξοπρςστυφχψω"))
         if not full:
             return chars
         # Special ligatures
-        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_Unicode_(Latin_alphabets)
-        chars += unicode(u"ﬀﬁﬂﬃﬄﬅﬆ")
-        chars += unicode(u"🙰")
+        # https://en.wikipedia.org/wiki/Typographic_ligature#Ligatures_in_list(unicode_(Latin_alphabets)
+        chars += list(unicode(u"ﬀﬁﬂﬃﬄﬅﬆ"))
+        chars += list(unicode(u"🙰"))
         # non ASCII symbols (currency etc)
-        chars += unicode(u"¥₩₹₺₽元")
+        chars += list(unicode(u"¥₩₹₺₽元"))
         # Greek special caracters, nobody use that!
-        # chars += unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΰ")
-        chars += unicode(u"ΪΫάέήίϊϋόύώ")
+        # chars += list(unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΰ"))
+        chars += list(unicode(u"ΪΫάέήίϊϋόύώ"))
         # Maths
-        chars += unicode(u"ℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃")
-        chars += unicode(u"°±×÷ø–—‰′″‴→↓↑←↔⇒⇔∈∉∏∑√∛∝∞∧∨∬∭∮∯∰∴∵≈≝≠≡≪≫⊄⊆⊈⊕")
+        chars += list(unicode(u"ℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃"))
+        chars += list(unicode(u"°±×÷ø–—‰′″‴→↓↑←↔⇒⇔∈∉∏∑√∛∝∞∧∨∬∭∮∯∰∴∵≈≝≠≡≪≫⊄⊆⊈⊕"))
+    return [c for c in chars]
+    #return list(chars)
     return chars
 
 
@@ -144,7 +159,7 @@ def get_grouped_ligatures():
 
 def get_chars():
     chars = get_grouped_chars()
-    chars[-1] = chars[-1].ljust(COLUMNS)
+    chars[-1] = _ljust(chars[-1], COLUMNS)
     chars.extend([
         ' ' * ROWS
         for i in range(len(chars), ROWS)
@@ -155,7 +170,7 @@ def get_chars():
 
 def get_ligatures():
     ligatures = get_grouped_ligatures()
-    ligatures[-1] = ligatures[-1].ljust(COLUMNS)
+    ligatures[-1] = _ljust(ligatures[-1], COLUMNS)
     ligatures.extend([
         ' ' * ROWS
         for i in range(len(ligatures), ROWS)
@@ -171,7 +186,7 @@ def get_chars_by_page():
         for i in range(0, len(chars), COLUMNS)
     ]
 
-    grouped_chars[-1] = grouped_chars[-1].ljust(COLUMNS)
+    grouped_chars[-1] = _ljust(grouped_chars[-1], COLUMNS)
     grouped_chars.extend([
         ' ' * ROWS
         for i in range(len(grouped_chars), ROWS)
@@ -199,7 +214,7 @@ def get_ligatures_by_page():
         for i in range(0, len(ligatures), COLUMNS)
     ]
 
-    grouped_ligatures[-1] = grouped_ligatures[-1].ljust(COLUMNS)
+    grouped_ligatures[-1] = _ljust(grouped_ligatures[-1], COLUMNS)
     grouped_ligatures.extend([
         ' ' * ROWS
         for i in range(len(grouped_ligatures), ROWS)
@@ -241,12 +256,21 @@ if __name__ == '__main__':
             get_flat_ligatures, get_ligatures, get_grouped_ligatures, get_ligatures_by_page,
         ]:
         name = f.__name__
-        data = list(f())
+        data = f()
+        if isinstance(data, type(iter(u'okok'))):
+            # data = [ i for i in f() ]
+            data = list(data)
         max_length_of_data = max(len(s) for s in data)
-        print("\nThe function '{}' gives {} unicode symbols of max length {}...".format(name, len(data), max_length_of_data))  # DEBUG
+        print("\nThe function '{}' gives output of type {}, which is seen as data of type {} and length {}, each of max length {}...".format(name, type(data), type(data[0]), len(data), max_length_of_data))  # DEBUG
         if isinstance(data[0], list):
-            for page, d in enumerate(data):
-                print("Page", page, "gives:")  # DEBUG
-                print(u", ".join(d))  # DEBUG
+            if isinstance(data[0][0], list):
+                joined_data = [ u", ".join(x) for x in data ]
+                for page, d in enumerate(join_data):
+                    print("Page", page, "gives:")  # DEBUG
+                    print(u", ".join(d))  # DEBUG
+            else:
+                for page, d in enumerate(data):
+                    print("Page", page, "gives:")  # DEBUG
+                    print(u", ".join(d))  # DEBUG
         else:
             print(u", ".join(data))  # DEBUG

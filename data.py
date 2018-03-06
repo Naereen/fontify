@@ -51,6 +51,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
         # non ASCII symbols (currency etc)
         chars += unicode(u"£€…¡¿")
         chars += unicode(u"«»‘’“”")
+        # chars += unicode(u"  ")  # space and unbreakable-space  
         # Greek upper and lower
         chars += unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")
         chars += unicode(u"αβγδεζηθικλμνξοπρςστυφχψω")

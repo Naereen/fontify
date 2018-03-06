@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 from __future__ import print_function
+
 import os
 import subprocess
 import tempfile
 import glob
-
 try:
     from StringIO import StringIO
 except ImportError:  # in Python 3
@@ -23,21 +23,32 @@ from flask import jsonify
 from pdfkit import from_string
 from PyPDF2 import PdfFileMerger
 
-from data import get_chars
-from data import get_chars_by_page
-from data import get_sample_chars
+# local imports
 from data import TMPL_OPTIONS
+from data import get_sample_chars, get_chars, get_chars_by_page
+from data import get_sample_ligatures, get_ligatures, get_ligatures_by_page  # FIXME add support for ligatures
+
+
+# --- configuration for the application
+
+HOST = '0.0.0.0'
+PORT = 5000
 
 UPLOAD_FOLDER = './upload'
 DOWNLOAD_FOLDER = './download'
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'pdf'])
-DPI = 300
-THRESHOLD = 75
+DPI = 300       # for PDF to PNG conversion
+THRESHOLD = 75  # for gray-scale to black-white conversion
+
+
+# --- create the Flask app and start to configure it
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
+
+# --- Flask app routes
 
 @app.route("/")
 def index():
@@ -53,53 +64,6 @@ def finish():
         key=key,
         font_name=font_name
     )
-
-
-# DEBUG Just to debug the template
-@app.route("/oldtemplate_html")
-def oldtemplate_html():
-    return render_template(
-        'template.html',
-        chars=get_chars(),
-        sample=get_sample_chars(),
-    )
-
-
-@app.route("/oldtemplate")
-def oldtemplate():
-    html = render_template(
-        'template.html',
-        chars=get_chars(),
-        sample=get_sample_chars()
-    )
-    pdf = from_string(
-        html,
-        False,
-        options=TMPL_OPTIONS,
-    )
-    response = make_response(pdf)
-    response.headers['Content-Disposition'] = "filename=template.pdf"
-    response.mimetype = 'application/pdf'
-    return response
-
-
-@app.route("/template_bypage")
-def template_bypage():
-    html = render_template(
-        'template_bypage.html',
-        chars_by_page=get_chars_by_page(),
-        sample=get_sample_chars()
-    )
-    pdf = from_string(
-        html,
-        False,
-        options=TMPL_OPTIONS,
-        css='static/css/template.css'
-    )
-    response = make_response(pdf)
-    response.headers['Content-Disposition'] = "filename=template.pdf"
-    response.mimetype = 'application/pdf'
-    return response
 
 
 # DEBUG Just to debug the template
@@ -163,6 +127,8 @@ def download(key, fontname):
         as_attachment=True
     )
 
+
+# --- first non trivial method
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -240,9 +206,12 @@ def upload_file():
             return jsonify(font_name=font_name, key=key)
     return ''
 
+
+# --- launch the application
+
 if __name__ == "__main__":
-    for dirname in ["upload", "download"]:
+    for dirname in [ UPLOAD_FOLDER, DOWNLOAD_FOLDER ]:
         if not os.path.isdir(dirname):
             print("Directory {} is absent... creating it.".format(dirname))  # DEBUG
             os.mkdir(dirname)
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host=HOST, port=PORT)

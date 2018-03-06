@@ -1,8 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
+
 from __future__ import print_function, division
+
 from math import ceil
 import string
+
+
+# --- Constants to configure the application
 
 # Options, see https://github.com/JazzCore/python-pdfkit
 TMPL_OPTIONS = {
@@ -15,16 +20,16 @@ TMPL_OPTIONS = {
     'margin-right': '0.5in',
 }
 
-# FIXME don't change now!
+# WARNING don't change now! everything works, DON'T CHANGE THIS!
 ROWS = 9
 COLUMNS = 9
 # print("Shape of the characters: on {} rows and {} columns...".format(ROWS, COLUMNS))  # DEBUG
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
-EXTENDED = False
+EXTENDED = False  # only for debugging
 EXTENDED = True
-
+# Use the full charset or not
 FULL = False
 
 CROPPED_IMG_NAME = "cropped_picture"
@@ -32,7 +37,10 @@ CROPPED_IMG_EXT = "bmp"
 CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 
+# --- utility function
+
 def _ljust(input, width, fillchar=None):
+    """Either ljust on a string or a list of string. Extend with fillchar."""
     if fillchar is None:
         fillchar = ' '
     if isinstance(input, str):
@@ -45,9 +53,13 @@ def _ljust(input, width, fillchar=None):
             return input + [fillchar for _ in range(delta_len)]
 
 
+# --- get list of unicode characters or ligatures
+
 def get_flat_chars(extended=EXTENDED, full=FULL):
+    """ Return a list of unicode characters for each single-width character."""
+    chars = []
     # ASCII letters
-    chars  = list(unicode(string.lowercase))
+    chars += list(unicode(string.lowercase))
     chars += list(unicode(string.uppercase))
     # Numbers
     chars += list(unicode(string.digits))
@@ -83,12 +95,11 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
         # Maths
         chars += list(unicode(u"ℕℝℂℙℤℚ∀∂∃∅∇∩∪∫≠≤≥⊂⊃"))
         chars += list(unicode(u"°±×÷ø–—‰′″‴→↓↑←↔⇒⇔∈∉∏∑√∛∝∞∧∨∬∭∮∯∰∴∵≈≝≠≡≪≫⊄⊆⊈⊕"))
-    return [c for c in chars]
-    #return list(chars)
     return chars
 
 
 def get_flat_ligatures():
+    """ Return a list of unicode characters for each ligature."""
     ligatures = []
     # ligatures += [u"ﬀ", u"ﬁ", u"ﬂ", u"ﬃ", u"ﬄ", u"ﬅ", u"ﬆ", u"🙰"]
     ligatures += [u"ff", u"fi", u"fl", u"ffi", u"ffl", u"ft", u"st", u"et"]
@@ -135,105 +146,73 @@ def get_flat_ligatures():
     return ligatures
 
 
-def get_grouped_chars():
-    chars = get_flat_chars()
-    MDIM = max(ROWS, COLUMNS)
-    grouped_chars = [
-        chars[i: i + MDIM]
-        for i in range(0, len(chars), MDIM)
+# --- get grouped data (unused)
+
+def _get_grouped(get_flat_input):
+    inputs = get_flat_input()
+    grouped_inputs = [
+        inputs[i: i + ROWS]
+        for i in range(0, len(inputs), ROWS)
     ]
-    # print("grouped_chars =", grouped_chars)  # DEBUG
-    return grouped_chars
+    # print("grouped_inputs =", grouped_inputs)  # DEBUG
+    return grouped_inputs
 
 
-def get_grouped_ligatures():
-    ligatures = get_flat_ligatures()
-    MDIM = max(ROWS, COLUMNS)
-    grouped_ligatures = [
-        ligatures[i: i + MDIM]
-        for i in range(0, len(ligatures), MDIM)
-    ]
-    # print("grouped_ligatures =", grouped_ligatures)  # DEBUG
-    return grouped_ligatures
+def get_grouped_chars(): return _get_grouped(get_flat_chars)
+def get_grouped_ligatures(): return _get_grouped(get_flat_ligatures)
 
+# --- get grouped and padded data (non used)
 
-def get_chars():
-    chars = get_grouped_chars()
-    chars[-1] = _ljust(chars[-1], COLUMNS)
-    chars.extend([
+def _get_grouped_and_padded(get_grouped_inputs):
+    inputs = get_grouped_inputs()
+    inputs[-1] = _ljust(inputs[-1], COLUMNS)
+    inputs.extend([
         ' ' * ROWS
-        for i in range(len(chars), ROWS)
+        for i in range(len(inputs), ROWS)
     ])
-    # print("chars =", chars)  # DEBUG
-    return chars
+    # print("inputs =", inputs)  # DEBUG
+    return inputs
 
 
-def get_ligatures():
-    ligatures = get_grouped_ligatures()
-    ligatures[-1] = _ljust(ligatures[-1], COLUMNS)
-    ligatures.extend([
-        ' ' * ROWS
-        for i in range(len(ligatures), ROWS)
-    ])
-    # print("ligatures =", ligatures)  # DEBUG
-    return ligatures
+def get_chars(): return _get_grouped_and_padded(get_grouped_chars)
+def get_ligatures(): return _get_grouped_and_padded(get_grouped_ligatures)
 
 
-def get_chars_by_page():
-    chars = get_flat_chars()
-    grouped_chars = [
-        chars[i: i + COLUMNS]
-        for i in range(0, len(chars), COLUMNS)
+# --- get data grouped by pages
+
+def _get_by_page(get_flat_inputs):
+    inputs = get_flat_inputs()
+    grouped_inputs = [
+        inputs[i: i + COLUMNS]
+        for i in range(0, len(inputs), COLUMNS)
     ]
 
-    grouped_chars[-1] = _ljust(grouped_chars[-1], COLUMNS)
-    grouped_chars.extend([
+    grouped_inputs[-1] = _ljust(grouped_inputs[-1], COLUMNS)
+    grouped_inputs.extend([
         ' ' * ROWS
-        for i in range(len(grouped_chars), ROWS)
+        for i in range(len(grouped_inputs), ROWS)
     ])
-    # print("grouped_chars =", grouped_chars)  # DEBUG
-    # print("len(grouped_chars =", len(grouped_chars))  # DEBUG
+    # print("grouped_inputs =", grouped_inputs)  # DEBUG
+    # print("len(grouped_inputs =", len(grouped_inputs))  # DEBUG
     # print("ROWS =", ROWS)  # DEBUG
-    nb_page = int(ceil(len(grouped_chars) / ROWS))
+    nb_page = int(ceil(len(grouped_inputs) / ROWS))
     # print("nb_page =", nb_page)  # DEBUG
-    grouped_chars_by_page = [
+    grouped_inputs_by_page = [
         [
-            grouped_chars[i]
-            for i in range(page*ROWS, min((page+1)*ROWS, len(grouped_chars)))
+            grouped_inputs[i]
+            for i in range(page*ROWS, min((page+1)*ROWS, len(grouped_inputs)))
         ]
         for page in range(0, nb_page)
     ]
-    # print("grouped_chars_by_page =", grouped_chars_by_page)  # DEBUG
-    return grouped_chars_by_page
+    # print("grouped_inputs_by_page =", grouped_inputs_by_page)  # DEBUG
+    return grouped_inputs_by_page
 
 
-def get_ligatures_by_page():
-    ligatures = get_flat_ligatures()
-    grouped_ligatures = [
-        ligatures[i: i + COLUMNS]
-        for i in range(0, len(ligatures), COLUMNS)
-    ]
+def get_chars_by_page(): return _get_by_page(get_flat_chars)
+def get_ligatures_by_page(): return _get_by_page(get_flat_ligatures)
 
-    grouped_ligatures[-1] = _ljust(grouped_ligatures[-1], COLUMNS)
-    grouped_ligatures.extend([
-        ' ' * ROWS
-        for i in range(len(grouped_ligatures), ROWS)
-    ])
-    # print("grouped_ligatures =", grouped_ligatures)  # DEBUG
-    # print("len(grouped_ligatures =", len(grouped_ligatures))  # DEBUG
-    # print("ROWS =", ROWS)  # DEBUG
-    nb_page = int(ceil(len(grouped_ligatures) / ROWS))
-    # print("nb_page =", nb_page)  # DEBUG
-    grouped_ligatures_by_page = [
-        [
-            grouped_ligatures[i]
-            for i in range(page*ROWS, min((page+1)*ROWS, len(grouped_ligatures)))
-        ]
-        for page in range(0, nb_page)
-    ]
-    # print("grouped_ligatures_by_page =", grouped_ligatures_by_page)  # DEBUG
-    return grouped_ligatures_by_page
 
+# --- sample characters (in light gray in the template)
 
 def _get_sample_chars(test_unicode=True):
     if test_unicode:
@@ -246,31 +225,51 @@ def get_sample_chars_no_unicode(): return _get_sample_chars(test_unicode=False)
 def get_sample_chars(): return _get_sample_chars(test_unicode=True)
 
 
+def get_sample_ligatures():
+    return iter([u"ff", u"st"])
+
+
 # --- Now we test everything
 
 if __name__ == '__main__':
     print("DEBUG: data.py")  # DEBUG
     for f in [
+            # --- samples
             get_sample_chars, get_sample_chars_no_unicode,
-            get_flat_chars, get_chars, get_grouped_chars, get_chars_by_page,
-            get_flat_ligatures, get_ligatures, get_grouped_ligatures, get_ligatures_by_page,
+            get_sample_ligatures,
+            # --- chars
+            get_flat_chars,
+            # get_grouped_chars,
+            # get_chars,
+            get_chars_by_page,
+            # --- ligatures
+            get_flat_ligatures,
+            # get_grouped_ligatures,
+            # get_ligatures,
+            get_ligatures_by_page,
         ]:
+        # get name and get data
         name = f.__name__
         data = f()
-        if isinstance(data, type(iter(u'okok'))):
-            # data = [ i for i in f() ]
+        # convert the iterators to list...
+        if isinstance(data, type(iter(u'okok'))) or isinstance(data, type(iter([u'ok', u'ok']))):
+            data = [ i for i in f() ]
             data = list(data)
+        # DEBUG
         max_length_of_data = max(len(s) for s in data)
         print("\nThe function '{}' gives output of type {}, which is seen as data of type {} and length {}, each of max length {}...".format(name, type(data), type(data[0]), len(data), max_length_of_data))  # DEBUG
+
+        # print(data)  # DEBUG
+
+        # print the data correctly...
         if isinstance(data[0], list):
             if isinstance(data[0][0], list):
-                joined_data = [ u", ".join(x) for x in data ]
-                for page, d in enumerate(join_data):
-                    print("Page", page, "gives:")  # DEBUG
-                    print(u", ".join(d))  # DEBUG
+                for page, page_data in enumerate(data):
+                    joined_data = [ u", ".join(x) for x in page_data ]
+                    print("Page {}/{} has {} columns and {} rows, with {} data of max length {}:".format(page + 1, len(data), len(page_data), len(joined_data), sum([len(s) for s in page_data]), max([max([len(c) for c in x]) for x in page_data]) ))  # DEBUG
+                    print(u"\t" + u"\n\t".join(joined_data))  # DEBUG
             else:
-                for page, d in enumerate(data):
-                    print("Page", page, "gives:")  # DEBUG
-                    print(u", ".join(d))  # DEBUG
+                for page, page_data in enumerate(data):
+                    print(u", ".join(page_data))  # DEBUG
         else:
             print(u", ".join(data))  # DEBUG

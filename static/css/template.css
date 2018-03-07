@@ -1,8 +1,10 @@
+@import url(fira_code.css);
+
 body {
-	font-family: "SF UI Text", sans-serif;
+	font-family: "Fira Code", "SF UI Text", sans-serif;
 	display: inline-block;
 	position: relative;
-	font-size: 135%;
+	font-size: 150%;
 	padding: 30px;
 }
 
@@ -83,18 +85,4 @@ th, td {
 .lower {
 	bottom: -20px;
 	right: -20px;
-}
-
-/* From https://stackoverflow.com/a/39526518/ */
-.page-break {
-	page-break-after: always;
-	page-break-before: always;
-	page-break-inside: avoid !important;
-	/* height: 0; */
-	/* margin: 0; */
-	/* border-top: none; */
-    /* clear: both; */
-    /* display: block; */
-	/* border :1px solid transparent; */
-	/* margin: 4px 0 4px 0; */
 }

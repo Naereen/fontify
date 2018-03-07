@@ -71,6 +71,9 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     chars += list(unicode(string.digits))
     if not extended:
         chars += list(unicode(string.punctuation))
+        # French accents
+        chars += list(unicode(u"àçèéêëîïôÿúüû"))
+        chars += list(unicode(u"ÀÇÈÉÊËÎÏÔŸÚÜÛ"))
     else:
         # Punctuations and symbols
         chars += list(unicode(u"!?\"$&'(),-.:;"))

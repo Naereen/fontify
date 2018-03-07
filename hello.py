@@ -87,12 +87,15 @@ def template_ligatures_html():
 
 # --- PDF template
 
-def _template(get_inputs, get_sample_inputs):
+def _template(get_inputs_by_page, get_sample_inputs):
     chars_by_page = get_inputs_by_page()
+    assert isinstance(chars_by_page, list)
+    assert isinstance(chars_by_page[0], list)
     print("Number of pages:", len(chars_by_page))
     pages = []
     # create a fake PDF for each page
-    for chars in chars_by_page:
+    for page, chars in enumerate(chars_by_page):
+        print("Using chars =\n", chars)  # DEBUG
         html = render_template(
             'template.html',
             chars=chars,
@@ -102,7 +105,7 @@ def _template(get_inputs, get_sample_inputs):
             html,
             False,
             options=TMPL_OPTIONS,
-            css='static/css/template.css'
+            css='static/css/template.css',
         )
         pages.append(pdf)
     # now merge the PDF
@@ -121,11 +124,11 @@ def _template(get_inputs, get_sample_inputs):
 
 @app.route("/template")
 def template():
-    return _template(get_chars, get_sample_chars)
+    return _template(get_chars_by_page, get_sample_chars)
 
 @app.route("/template_ligatures")
 def template_ligatures():
-    return _template(get_ligatures, get_sample_ligatures)
+    return _template(get_ligatures_by_page, get_sample_ligatures)
 
 
 # --- demo of LaTeX & PDF document

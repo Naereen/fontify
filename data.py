@@ -3,6 +3,11 @@
 
 from __future__ import print_function, division
 
+try:  # python 2/3 compatibility
+    unicode
+except NameError:
+    unicode = str
+
 from math import ceil
 import string
 
@@ -18,6 +23,7 @@ TMPL_OPTIONS = {
     'margin-bottom': '0.5in',
     'margin-left': '0.5in',
     'margin-right': '0.5in',
+    # 'user-style-sheet': '/tmp/static/css/template.css',
 }
 
 # WARNING don't change now! everything works, DON'T CHANGE THIS!
@@ -226,10 +232,11 @@ def get_ligatures_by_page(): return _get_by_page(get_flat_ligatures)
 # --- sample characters (in light gray in the template)
 
 def _get_sample_chars(test_unicode=True):
+    # WARNING the leading space ' ' char is because there is a space in the data
     if test_unicode:
-        return iter(u"AaΩω")
+        return iter(u" AaΩω")
     else:
-        return iter(u"AaZz")
+        return iter(u" AaZz")
 
 
 def get_sample_chars_no_unicode(): return _get_sample_chars(test_unicode=False)
@@ -268,7 +275,7 @@ if __name__ == '__main__':
             data = list(data)
         # DEBUG
         max_length_of_data = max(len(s) for s in data)
-        print("\nThe function '{}' gives output of type {}, which is seen as data of type {} and length {}, each of max length {}...".format(name, type(data), type(data[0]), len(data), max_length_of_data))  # DEBUG
+        print("\nThe function '{}' gives output of type {} and length {}, which is seen as data of type {}, each of max length {}...".format(name, type(data), len(data), type(data[0]), max_length_of_data))  # DEBUG
 
         # print(data)  # DEBUG
 

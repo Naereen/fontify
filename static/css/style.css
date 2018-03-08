@@ -122,3 +122,26 @@ footer p {
         max-width: 100%;
     }
 }
+
+/* Pulsing heart animation */
+.love {
+    display: inline-block;
+    position: relative;
+    font-size: 1.5em;
+    color: #f95959;;
+    -webkit-transform: scale(.9);
+       -moz-transform: scale(.9);
+            transform: scale(.9);
+    -webkit-animation: love .5s infinite linear alternate-reverse;
+       -moz-animation: love .5s infinite linear alternate-reverse;
+            animation: love .5s infinite linear alternate-reverse;
+}
+@-webkit-keyframes love {
+    to { -webkit-transform: scale(1.1); }
+}
+@-moz-keyframes love {
+    to { -moz-transform: scale(1.1); }
+}
+@keyframes love {
+    to { transform: scale(1.1); }
+}

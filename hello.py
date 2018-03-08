@@ -163,7 +163,7 @@ def upload_file():
         file = request.files['file']
         if file and allowed_file(file.filename):
             _, ext = os.path.splitext(file.filename)
-            f, filename = tempfile.mkstemp(
+            _, filename = tempfile.mkstemp(
                 prefix='',
                 suffix=ext,
                 dir=app.config['UPLOAD_FOLDER']

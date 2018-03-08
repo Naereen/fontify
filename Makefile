@@ -30,3 +30,11 @@ test_pdf:
 	-rm -vf static/test.aux static/test.fls static/test.log static/test.fdb_latexmk static/test.synctex.gz
 	# xdg-open test.pdf &
 	CP static/test.pdf ${Szam}publis/latex/test_handwritten_font_with_fontify.pdf
+
+# Senders:
+send:	send_zamok
+send_zamok:	clean
+	CP --exclude=.git ./ ${Szam}publis/fontify.git/
+
+send_ws3:	clean
+	CP ./ ${Sw}fontify.git/

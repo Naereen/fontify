@@ -18,6 +18,9 @@ from data import get_chars_by_page
 from data import get_ligatures_by_page  # FIXME add support for ligatures
 
 
+VARIANTS = ["Italic", "Bold", "Light", "Medium", "Regular"]
+
+
 def check_input(images):
     for image in images:
         if not os.path.isfile(image):
@@ -44,7 +47,8 @@ def setup_work_dir(images):
     return tmpdir, destinations
 
 
-def process(tmpdir, images, font_name):
+def process(tmpdir, images, font_name, variant='Regular'):
+    assert variant in VARIANTS, "Error, variant '{}' should be one of {}...".format(variant, VARIANTS)
     # 1. Crop the image using the two black circles
     trimmed_filepaths = []
     for page, image in enumerate(images):
@@ -67,6 +71,7 @@ def process(tmpdir, images, font_name):
             font_name,
             svgdir,
             ttf,
+            variant,
         ],
         cwd=scriptdir
     )
@@ -92,11 +97,15 @@ def process(tmpdir, images, font_name):
     )
 
 
-def tear_down(tmpdir, output):
+def tear_down(tmpdir, output, font_name='Fontify', variant='Regular'):
+    assert output.endswith('.ttf'), "Error: 'output' = {} should be have the .ttf extension!".format(output)
     if output == "":
-        output = "fontify.ttf"
+        output = "{}-{}.ttf".format(font_name, variant)
+    if output.endswith('fontify.ttf'):
+        output = output.replace('fontify.ttf', "{}-{}.ttf".format(font_name, variant))
     shutil.copyfile(os.path.join(tmpdir, 'fontify.ttf'), output)
-    shutil.copyfile(os.path.join(tmpdir, 'fontify.woff'), output[:-3] + 'woff')
+    shutil.copyfile(os.path.join(tmpdir, 'fontify.woff'), output.replace('.ttf', '.woff'))
+    shutil.copyfile(os.path.join(tmpdir, 'fontify.otf'), output.replace('.ttf', '.otf'))
     # shutil.rmtree(tmpdir)
 
 
@@ -110,11 +119,14 @@ if __name__ == "__main__":
         "-n", "--name", default="Fontify", help="font name (default: Fontify)"
     )
     parser.add_argument(
+        "-v", "--variant", default="Regular", help="font variant (default: Regular)"
+    )
+    parser.add_argument(
         "-o", metavar="OUTPUT", default="",
-        help="output font file (default to fontify.ttf in current directory)"
+        help="output font file (default to Name-Variant.ttf in current directory)"
     )
     args = parser.parse_args()
     check_input(args.images)
     tmpdir, images = setup_work_dir(args.images)
-    process(tmpdir, images, args.name)
-    tear_down(tmpdir, args.o)
+    process(tmpdir, images, args.name, variant=args.variant)
+    tear_down(tmpdir, args.o, font_name=args.name, variant=args.variant)

@@ -27,7 +27,7 @@ Dropzone.options.uploadDropzone = {
 
     this.on("success", function(file, response) {
       window.location =
-        "/finish?key=" + response.key + "&fontname=" + response.font_name;
+        "/finish?key=" + response.key + "&font_name=" + response.font_name + "&font_variant=" + response.font_variant;
     });
 
     this.on("maxfilesexceeded", function(file) {

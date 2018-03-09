@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Fontify - Make your own font!{% endblock %}
 {% block body %}
-<h2>Make your own font!</h2>
+<h2><em>Make your own font!</em></h2>
 <p>
     Three steps:
 </p>
@@ -26,12 +26,15 @@
 <p>
     1. Fill <a title="Mainly for debugging" href="/template_html" target="_blank">the template</a>, scan it as a single multi-page PDF, and upload it.
 
-    <em>Advice:</em> use a black and not too thin pen. Don't use pencil or feather pen, and don't use light ink (Fontify supports colored input, but the font will turn out black-white only).
+    <br>
+    <em>Advice:</em> use a black and not too thin pen.
+    <br>Don't use pencil or feather pen, and don't use light ink.
+    <br>(Fontify supports colored input, but the font will turn out black-white only).
 </p>
 
 <a href="/template_ligatures" target="_blank">
-    <button class="btn btn-primary">
-        Print the PDF template for ligatures?
+    <button class="btn btn-secondary btn-sm">
+        Print the PDF template for ligatures?<br>
         (still experimental, don't try it)
     </button>
 </a>
@@ -39,46 +42,72 @@
     1.b. (optional) Fill <a title="Mainly for debugging" href="/template_ligatures_html" target="_blank">the template</a>, scan it, and upload.
 </p>
 
-<div class="font-name">
-    <input id="font-name-input" class="form-control" placeholder="Enter a name" style="margin-left: auto; margin-right: auto;"></input>
+<div class="font_name">
+    <input id="font_name-input" class="form-control" placeholder="Enter a name" style="margin-left: auto; margin-right: auto;"></input>
     <script type="text/javascript">
         $(function() {
-            $("#font-name-input").on("change keyup paste click", function(e) {
+            $("#font_name-input").on("change keyup paste click", function(e) {
                 if (/^[a-zA-Z0-9]+$/i.test(e.target.value) === false) {
-                    $("#font-name-validation").text("Please enter alphanumeric characters!");
-                    $("#font-name-validation").removeClass("valid-feedback");
-                    $("#font-name-validation").addClass("invalid-feedback");
-                    $("#font-name-input").removeClass("is-valid");
-                    $("#font-name-input").addClass("is-invalid");
+                    $("#font_name-validation").text("Please enter alphanumeric characters!");
+                    $("#font_name-validation").removeClass("valid-feedback");
+                    $("#font_name-validation").addClass("invalid-feedback");
+                    $("#font_name-input").removeClass("is-valid");
+                    $("#font_name-input").addClass("is-invalid");
                     $("#submit-all").attr("disabled", true);
                 } else {
-                    $("#font-name-validation").text("Your awesome font name: " + e.target.value);
-                    $("#font-name-validation").removeClass("invalid-feedback");
-                    $("#font-name-validation").addClass("valid-feedback");
-                    $("#font-name-input").removeClass("is-invalid");
-                    $("#font-name-input").addClass("is-valid");
+                    $("#font_name-validation").text("Your awesome font name: " + e.target.value);
+                    $("#font_name-validation").removeClass("invalid-feedback");
+                    $("#font_name-validation").addClass("valid-feedback");
+                    $("#font_name-input").removeClass("is-invalid");
+                    $("#font_name-input").addClass("is-valid");
                     $("#submit-all").attr("disabled", false);
                 }
-                $("#font-name").val(e.target.value);
+                $("#font_name").val(e.target.value);
             });
         });
     </script>
-    <div id="font-name-validation">
-        Your awesome font name.
+    <div id="font_name-validation">
+        Enter your awesome font name.
     </div>
 </div>
 
 <div class="upload">
     <p id="upload-file-validation">
         2. Upload the scanned template (as a JPG, PNG or PDF).
-        Prefer PDF as multi-pages are supported!
+        <br>Prefer PDF as multi-pages are supported!
     </p>
     <form action="/upload-file" class="dropzone" id="uploadDropzone">
-        <input type="hidden" id="font-name" name="font-name"></input>
+        <input type="hidden" id="font_name" name="font_name" value="Test"></input>
+        <input type="hidden" id="font_variant" name="font_variant" value="Regular"></input>
     </form>
     <br>
-    <p><button id="submit-all" class="btn btn-primary">
-        3. Submit, and wait a few seconds.
-    </button></p>
+    <p>
+        <button id="submit-all" class="btn btn-primary">
+            3. Submit, and wait a few seconds.
+        </button>
+    </p>
 </div>
+
+<div>
+    <p>Optional: choose your font variant</p>
+    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Light"> Light</label>
+    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Regular" checked="checked"> Regular</label>
+    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Medium"> Medium</label>
+    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Bold"> Bold</label>
+    <script type="text/javascript">
+        $(function(){
+            var choice_font_variant = $('.choice_font_variant:checked').val();
+            $('#font_variant').val(choice_font_variant);
+            console.log("Font variant =", choice_font_variant);
+
+            $('.choice_font_variant').on("change keyup paste click", function(){
+                var choice_font_variant = $('.choice_font_variant:checked').val();
+                console.log("Font variant =", choice_font_variant);
+                $('#font_variant').val(choice_font_variant);
+            });
+        });
+    </script>
+</div>
+<br><hr><br>
+
 {% endblock %}

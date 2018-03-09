@@ -13,16 +13,13 @@ clean:
 	-rm -vfr __pycache__/ **/__pycache__/
 	-rm -vf *.pyc */*.pyc
 
-activate:
-	. env/bin/activate
-
-rundebug:	activate
+rundebug:
 	# firefox http://0.0.0.0:5000/ &
-	python hello.py
+	. env/bin/activate && python hello.py
 
-run:	activate
+run:
 	# firefox http://0.0.0.0:5000/ &
-	python wsgi.py
+	. env/bin/activate && python wsgi.py
 
 test_pdf:
 	xelatex static/test.tex

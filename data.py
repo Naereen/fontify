@@ -71,9 +71,9 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     chars += list(unicode(string.digits))
     if not extended:
         chars += list(unicode(string.punctuation))
-        # French accents
-        chars += list(unicode(u"àçèéêëîïôÿúüû"))
-        chars += list(unicode(u"ÀÇÈÉÊËÎÏÔŸÚÜÛ"))
+        # # French accents
+        # chars += list(unicode(u"àçèéêëîïôÿúüû"))
+        # chars += list(unicode(u"ÀÇÈÉÊËÎÏÔŸÚÜÛ"))
     else:
         # Punctuations and symbols
         chars += list(unicode(u"!?\"$&'(),-.:;"))
@@ -86,7 +86,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
         # non ASCII symbols (currency etc)
         chars += list(unicode(u"£€…¡¿"))
         chars += list(unicode(u"«»‘’“”"))
-        chars += list(unicode(u"  "))  # space ' ' and unbreakable-space ' '
+        # chars += list(unicode(u"  "))  # space ' ' and unbreakable-space ' '
         # Greek upper and lower
         chars += list(unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"))
         chars += list(unicode(u"αβγδεζηθικλμνξοπρςστυφχψω"))

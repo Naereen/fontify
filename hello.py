@@ -58,11 +58,13 @@ def index():
 @app.route("/finish")
 def finish():
     key = request.args.get('key')
-    font_name = request.args.get('fontname')
+    font_name = request.args.get('font_name')
+    font_variant = request.args.get('font_variant')
     return render_template(
         'finish.html',
         key=key,
-        font_name=font_name
+        font_name=font_name,
+        font_variant=font_variant
     )
 
 
@@ -142,11 +144,13 @@ def test_pdf():
     return app.send_static_file('test.pdf')
 
 
-@app.route("/download/<key>/<fontname>")
-def download(key, fontname):
+# @app.route("/download/<key>/<full_font_name>/<font_variant>")
+# def download(key, full_font_name, font_variant='Regular'):
+@app.route("/download/<key>/<full_font_name>")
+def download(key, full_font_name):
     return send_from_directory(
         os.path.join(app.config['DOWNLOAD_FOLDER'], key),
-        fontname,
+        full_font_name,
         as_attachment=True
     )
 
@@ -211,8 +215,12 @@ def upload_file():
                 if return_code != 0:
                     raise ValueError("Call to 'convert -threshold {}% {} {}' failed... do you have 'convert' from imagemagick installed?".format(THRESHOLD, image, image))
 
-            font_name = request.form['font-name']
+            font_name = request.form['font_name']
+            print("Using font_name =", font_name)
+            font_variant = request.form['font_variant']
+            print("Using font_variant =", font_variant)
             key = filenames[0].split('/')[-1].split('.')[0]
+            print("Using key =", key)
 
             os.mkdir(os.path.join(app.config['DOWNLOAD_FOLDER'], key))
 
@@ -220,13 +228,14 @@ def upload_file():
                 "python",
                 "scripts/fontify.py",
                 "-n", font_name,
+                "-v", font_variant,
                 "-o", os.path.join(app.config['DOWNLOAD_FOLDER'], key, "fontify.ttf"),
                 ] + filenames
 
             return_code = subprocess.call(call_to_fontify)
             if return_code != 0:
                 raise ValueError("Call to 'scripts/fontify.py' failed... Check log above.")
-            return jsonify(font_name=font_name, key=key)
+            return jsonify(font_name=font_name, key=key, font_variant=font_variant)
     return ''
 
 

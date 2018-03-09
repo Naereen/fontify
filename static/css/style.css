@@ -14,6 +14,9 @@ a {
 }
 
 body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75%;
     text-align: center;
     text-justify: initial;
     font-size: 18px;
@@ -33,14 +36,16 @@ h1 {
 .fontify {
     font-family: 'Fontify', sans-serif;
     font-style: italic;
-    letter-spacing: -15px !important;
+    /* letter-spacing: -15px !important; */
+    letter-spacing: -0.15em;
+    word-spacing: 0.30em;
 }
 
-.font-name {
+.font_name {
     margin-top: 80px;
 }
 
-.font-name input {
+.font_name input {
     width: 80%;
     height: 80px;
     font-size: 24px;
@@ -49,7 +54,7 @@ h1 {
 }
 
 @media (min-width: 480px) {
-    .font-name input {
+    .font_name input {
         width: 50%;
         font-size: 32px;
     }
@@ -67,6 +72,9 @@ h1 {
 @media (min-width: 480px) {
     .upload .dropzone {
         width: 50%;
+    }
+    body {
+        max-width: 90%;
     }
 }
 

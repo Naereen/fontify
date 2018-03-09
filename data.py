@@ -66,6 +66,8 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     chars = []
     # ASCII letters
     chars += list(unicode(string.ascii_lowercase))
+    chars += list(unicode(' '))
+    return chars  # FIXME
     chars += list(unicode(string.ascii_uppercase))
     # Numbers
     chars += list(unicode(string.digits))

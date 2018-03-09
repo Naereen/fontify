@@ -43,6 +43,8 @@ metadata = {
 
 chars = get_flat_chars()
 
+max_width = 10
+
 for c in chars:
     glyph_key = str(hex(ord(c)))
     svg_name = glyph_key + ".svg"
@@ -55,6 +57,7 @@ for c in chars:
         content = f.read()
         result = re.search('width="(\d+\.\d+)pt"', content)
         width = float(result.groups()[0]) / 72. * 1000
+        max_width = max(max_width, width)
 
     metadata["glyphs"][glyph_key] = {
         "src": svg_name,
@@ -73,5 +76,21 @@ for c in chars:
         #     ("anchor-class-name", "ligature", 2. * width/3., 0, 2),
         # ]
     }
+
+# XXX Weird hack for just the space?
+if ' ' not in chars:
+    width = max_width
+    c = ' '
+    glyph_key = str(hex(ord(c)))
+    svg_name = glyph_key + ".svg"
+    svg_path = os.path.join(sys.argv[2], svg_name)
+    # FIXME create the empty SVG!
+    if not os.path.isfile(svg_path):
+        sys.stderr.write(u"File {:>10} for glyph {:>4} not exists, skipped.\n".format(svg_name, c))
+    else:
+        metadata["glyphs"][glyph_key] = {
+            "src": svg_name,
+            "width": width,
+        }
 
 print(json.dumps(metadata, indent=2))

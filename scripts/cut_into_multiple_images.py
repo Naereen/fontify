@@ -71,9 +71,18 @@ def postprocess_char_complex_and_save(im_char, glyph_path, debug=False):
 
     misc.imsave(glyph_path, np.asarray(np_im_output, dtype=np.int))
 
+    # XXX was not working!
     # # im_output = Image.fromarray(np_im_char, mode='L')
     # im_output = Image.fromarray(np_im_output, mode='L')
     # return im_output
+
+
+def save_space(coordinates, glyph_path):
+    dx = coordinates[2] - coordinates[0]
+    dy = coordinates[3] - coordinates[1]
+    char_im = np.zeros((dy, dx), dtype=np.uint8)
+    char_im.fill(255)
+    misc.imsave(glyph_path, char_im)
 
 
 def postprocess_char_old(im_char, debug=False, deltay=3):
@@ -159,10 +168,6 @@ def cut(page, filepath, postprocess=True, debug=False):
     for i in range(0, height_limit, cell_height):
         for j in range(0, width_limit, cell_width):
             char = chars[i / cell_height][j / cell_width]
-            if char == ' ':
-                number_of_time_we_saw_a_space += 1
-                if number_of_time_we_saw_a_space > 1:
-                    return
             print(u"\ni =", i, "j =", j, "char =", char)  # DEBUG
             # Coordinates as [ymin, xmin, ymax, xmax] rectangle
             coordinates = (
@@ -172,13 +177,22 @@ def cut(page, filepath, postprocess=True, debug=False):
                     i + cell_height - margin_height_bottom
                 )
             print("\tUsing a square of coordinates, ", coordinates)  # DEBUG
-            char_im = im.crop(coordinates)
+
             glyph_path = os.path.join(bmp_dir, "{}.bmp".format(hex(ord(char))))
 
-            if postprocess:
-                postprocess_char_complex_and_save(char_im, glyph_path)
+            if char == ' ':
+                number_of_time_we_saw_a_space += 1
+                if number_of_time_we_saw_a_space > 1:
+                    return
+                else:
+                    print("For the first time, saving an empty white BMP to '{}' as a space...".format(glyph_path))  # DEBUG
+                    save_space(coordinates, glyph_path)
             else:
-                char_im.save(glyph_path)
+                char_im = im.crop(coordinates)
+                if postprocess:
+                    postprocess_char_complex_and_save(char_im, glyph_path)
+                else:
+                    char_im.save(glyph_path)
 
             print(u"Saved char '{}' at index i, j = {}, {} to file '{}'...".format(char, i, j, glyph_path))  # DEBUG
             if debug:

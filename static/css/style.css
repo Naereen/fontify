@@ -36,7 +36,6 @@ h1 {
 .fontify {
     font-family: 'Fontify', sans-serif;
     font-style: italic;
-    /* letter-spacing: -15px !important; */
     letter-spacing: -0.15em;
     word-spacing: 0.30em;
 }

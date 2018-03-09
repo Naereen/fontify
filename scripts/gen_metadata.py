@@ -43,7 +43,9 @@ metadata = {
 
 chars = get_flat_chars()
 
-max_width = 10
+min_width = 310.0
+max_width = 0
+
 
 for c in chars:
     glyph_key = str(hex(ord(c)))
@@ -58,6 +60,9 @@ for c in chars:
         result = re.search('width="(\d+\.\d+)pt"', content)
         width = float(result.groups()[0]) / 72. * 1000
         max_width = max(max_width, width)
+
+    width = max(min_width, width)
+    sys.stderr.write(u"For character '{}', using file at '{}', of width '{}'...\n".format(glyph_key, svg_name, width))  # DEBUG
 
     metadata["glyphs"][glyph_key] = {
         "src": svg_name,
@@ -86,7 +91,7 @@ if ' ' not in chars:
     svg_path = os.path.join(sys.argv[2], svg_name)
     # FIXME create the empty SVG!
     if not os.path.isfile(svg_path):
-        sys.stderr.write(u"File {:>10} for glyph {:>4} not exists, skipped.\n".format(svg_name, c))
+        sys.stderr.write(u"File {:>10} for glyph {:>4} do not exists, skipped.\n".format(svg_name, c))
     else:
         metadata["glyphs"][glyph_key] = {
             "src": svg_name,

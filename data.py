@@ -33,8 +33,8 @@ COLUMNS = 9
 PERCENTAGE_TO_CROP_SCAN_IMG = 0.008
 
 # Use the extended charset or not
+EXTENDED = False  # WARNING only for debugging
 EXTENDED = True
-EXTENDED = False  # only for debugging
 # Use the full charset or not
 FULL = False
 
@@ -66,8 +66,6 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     chars = []
     # ASCII letters
     chars += list(unicode(string.ascii_lowercase))
-    chars += list(unicode(' '))
-    return chars  # FIXME
     chars += list(unicode(string.ascii_uppercase))
     # Numbers
     chars += list(unicode(string.digits))

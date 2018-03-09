@@ -5,7 +5,10 @@ import os
 from collections import Counter
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import misc
+try:
+    from scipy.misc import imsave
+except:
+    from imageio import imsave
 from PIL import Image
 from scipy import ndimage
 import cv2
@@ -69,7 +72,7 @@ def postprocess_char_complex_and_save(im_char, glyph_path, debug=False):
         plt.show()
         plt.draw()
 
-    misc.imsave(glyph_path, np.asarray(np_im_output, dtype=np.int))
+    imsave(glyph_path, np.asarray(np_im_output, dtype=np.int))
 
     # XXX was not working!
     # # im_output = Image.fromarray(np_im_char, mode='L')
@@ -82,7 +85,7 @@ def save_space(coordinates, glyph_path):
     dy = coordinates[3] - coordinates[1]
     char_im = np.zeros((dy, dx), dtype=np.uint8)
     char_im.fill(255)
-    misc.imsave(glyph_path, char_im)
+    imsave(glyph_path, char_im)
 
 
 def postprocess_char_old(im_char, debug=False, deltay=3):

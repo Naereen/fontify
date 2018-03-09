@@ -75,7 +75,7 @@ def _ljust(input, width, fillchar=None):
 
 # --- get list of unicode characters or ligatures
 
-def get_flat_chars(extended=EXTENDED, full=FULL):
+def _get_flat_chars(extended=EXTENDED, full=FULL):
     """ Return a list of unicode characters for each single-width character."""
     chars = []
     # ASCII letters
@@ -121,7 +121,7 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
     return chars
 
 
-def get_flat_ligatures(extended=EXTENDED, full=FULL):
+def _get_flat_ligatures(extended=EXTENDED, full=FULL):
     """ Return a list of unicode characters for each ligature."""
     ligatures = []
     # FIXME I'm experimenting on this, cf https://github.com/Naereen/fontify/issues/3
@@ -185,8 +185,13 @@ def get_flat_ligatures(extended=EXTENDED, full=FULL):
     return ligatures
 
 
-# FIXME remove
-get_flat_chars = get_flat_ligatures
+def get_flat_chars():
+    # FIXME remove
+    return _get_flat_chars()
+    return _get_flat_chars() + _get_flat_ligatures()
+
+def get_flat_ligatures():
+    return _get_flat_ligatures()
 
 
 # --- get grouped data (unused)

@@ -45,6 +45,20 @@ CUT_CHAR_IMGS_DIR = "cutting_output_images"
 
 # --- utility function
 
+def str_to_hex(one_or_more_char):
+    if isinstance(one_or_more_char, str) or len(one_or_more_char) == 1:
+        return hex(ord(one_or_more_char))
+    else:
+        return '_'.join(hex(ord(char)) for char in one_or_more_char)
+
+
+def hex_of_str(one_or_more_hex):
+    if not '_' in one_or_more_hex:
+        return [int(one_or_more_hex, 0)]
+    else:
+        return [int(c, 0) for c in one_or_more_hex.split('_')]
+
+
 def _ljust(input, width, fillchar=None):
     """Either ljust on a string or a list of string. Extend with fillchar."""
     if fillchar is None:
@@ -110,11 +124,16 @@ def get_flat_chars(extended=EXTENDED, full=FULL):
 def get_flat_ligatures(extended=EXTENDED, full=FULL):
     """ Return a list of unicode characters for each ligature."""
     ligatures = []
+    # FIXME I'm experimenting on this, cf https://github.com/Naereen/fontify/issues/3
+    ligatures += [u"i", u"j", ]
+    ligatures += [u"ij", ]
+    return ligatures
+    ligatures += [u"</", u"<!--", u"</>", u"/>", ]
+    return ligatures
     # ligatures += [u"ﬀ", u"ﬁ", u"ﬂ", u"ﬃ", u"ﬄ", u"ﬅ", u"ﬆ", u"🙰"]
     ligatures += [u"ff", u"fi", u"fl", u"ffi", u"ffl", u"ft", u"st", u"et"]
     # then from other ligatures
     ligatures += [u"fa", u"fe", u"fj", u"fo", u"fr", u"fs", u"ft", u"fft", u"fb", u"ffb", u"fh", u"ffh", u"fu", u"fy"]
-    ligatures += [u"ij", ]
     ligatures += [u"ct", u"ch", u"ck", u"tt", ]
     if not extended:
         return ligatures
@@ -164,6 +183,10 @@ def get_flat_ligatures(extended=EXTENDED, full=FULL):
     ligatures += [u"Lilian", u"Besson", u"Naereen", ]
 
     return ligatures
+
+
+# FIXME remove
+get_flat_chars = get_flat_ligatures
 
 
 # --- get grouped data (unused)

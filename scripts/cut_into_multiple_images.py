@@ -13,6 +13,7 @@ from PIL import Image
 from scipy import ndimage
 import cv2
 
+from data import str_to_hex
 from data import COLUMNS, ROWS
 from data import get_chars_by_page
 from data import get_ligatures_by_page  # FIXME add support for ligatures
@@ -181,7 +182,8 @@ def cut(page, filepath, postprocess=True, debug=False):
                 )
             print("\tUsing a square of coordinates, ", coordinates)  # DEBUG
 
-            glyph_path = os.path.join(bmp_dir, "{}.bmp".format(hex(ord(char))))
+            # glyph_path = os.path.join(bmp_dir, "{}.bmp".format(hex(ord(char))))
+            glyph_path = os.path.join(bmp_dir, "{}.bmp".format(str_to_hex(char)))
 
             if char == ' ':
                 number_of_time_we_saw_a_space += 1

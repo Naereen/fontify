@@ -78,7 +78,7 @@ ngrok http 5000
 ---
 
 ### :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/fontify.svg)](https://github.com/Naereen/fontify/blob/master/LICENSE)
-This (small) repository are published under the terms of the [MIT license](http://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
+This (small) repository is published under the terms of the [MIT license](http://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
 © [Lilian Besson](https://GitHub.com/Naereen), 2018.
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/fontify/graphs/commit-activity)

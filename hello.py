@@ -26,6 +26,7 @@ from PyPDF2 import PdfFileMerger
 # local imports
 from data import TMPL_OPTIONS
 from data import get_sample_chars, get_chars, get_chars_by_page
+
 from data import get_sample_ligatures, get_ligatures, get_ligatures_by_page  # FIXME add support for ligatures
 
 
@@ -71,9 +72,19 @@ def finish():
 # --- DEBUG just to debug the template
 
 def _template_html(get_inputs, get_sample_inputs):
+
+    extended = request.args.get('e') == 'true'
+    full = request.args.get('F') == 'true'
+    greek = request.args.get('g') == 'true'
+    accents = request.args.get('a') == 'true'
+    frenchspecials = request.args.get('f') == 'true'
+    spanishspecials = request.args.get('s') == 'true'
+    kwargs_get_data = dict(extended=extended, full=full, greek=greek, accents=accents, frenchspecials=frenchspecials, spanishspecials=spanishspecials)
+    print("kwargs_get_data =", kwargs_get_data)  # DEBUG
+
     return render_template(
         'template.html',
-        chars=get_inputs(),
+        chars=get_inputs(**kwargs_get_data),
         sample=get_sample_inputs(),
         css='static/css/template.css'
     )
@@ -90,7 +101,17 @@ def template_ligatures_html():
 # --- PDF template
 
 def _template(get_inputs_by_page, get_sample_inputs):
-    chars_by_page = get_inputs_by_page()
+
+    extended = request.args.get('e') == 'true'
+    full = request.args.get('F') == 'true'
+    greek = request.args.get('g') == 'true'
+    accents = request.args.get('a') == 'true'
+    frenchspecials = request.args.get('f') == 'true'
+    spanishspecials = request.args.get('s') == 'true'
+    kwargs_get_data = dict(extended=extended, full=full, greek=greek, accents=accents, frenchspecials=frenchspecials, spanishspecials=spanishspecials)
+    print("kwargs_get_data =", kwargs_get_data)  # DEBUG
+
+    chars_by_page = get_inputs_by_page(**kwargs_get_data)
     assert isinstance(chars_by_page, list)
     assert isinstance(chars_by_page[0], list)
     print("Number of pages:", len(chars_by_page))
@@ -144,8 +165,6 @@ def test_pdf():
     return app.send_static_file('test.pdf')
 
 
-# @app.route("/download/<key>/<full_font_name>/<font_variant>")
-# def download(key, full_font_name, font_variant='Regular'):
 @app.route("/download/<key>/<full_font_name>")
 def download(key, full_font_name):
     return send_from_directory(
@@ -216,11 +235,11 @@ def upload_file():
                     raise ValueError("Call to 'convert -threshold {}% {} {}' failed... do you have 'convert' from imagemagick installed?".format(THRESHOLD, image, image))
 
             font_name = request.form['font_name']
-            print("Using font_name =", font_name)
+            print("Using font_name =", font_name)  # DEBUG
             font_variant = request.form['font_variant']
-            print("Using font_variant =", font_variant)
+            print("Using font_variant =", font_variant)  # DEBUG
             key = filenames[0].split('/')[-1].split('.')[0]
-            print("Using key =", key)
+            print("Using key =", key)  # DEBUG
 
             os.mkdir(os.path.join(app.config['DOWNLOAD_FOLDER'], key))
 

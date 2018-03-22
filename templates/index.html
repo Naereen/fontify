@@ -18,13 +18,99 @@
 </ol>
 <hr>
 
-<a href="/template" target="_blank">
+<div>
+    <p>
+        <em>Optional</em> choose your characters for the template<br>
+        <label><input name="extended" id="input_data_extended" type="checkbox" checked> <abbr title="If false, only use a-z,A-Z,0-9 and ASCII punctuations">Extended</abbr></label>
+        <label><input name="full" id="input_data_full" type="checkbox"> <abbr title="If true, use experimental maths and ligatures caracters">Full</abbr></label>
+        <label><input name="greek" id="input_data_greek" type="checkbox"> <abbr title="If true, use greeks letters (ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ αβγδεζηθικλμνξοπρςστυφχψω)">Greek</abbr></label>
+        <br>
+        <label><input name="accents" id="input_data_accents" type="checkbox" checked> <abbr title="If true, also use accents (àáâäçèéêëîíïñòóôöŷÿùúüû and ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ)">Accents</abbr></label>
+        <label><input name="accents" id="input_data_frenchspecials" type="checkbox" checked> <abbr title="If true, also use some French special characters (æœßÆŒ €… «»‘’“”)">French specials</abbr></label>
+        <label><input name="accents" id="input_data_spanishspecials" type="checkbox"> <abbr title="If true, also use some Spanish special characters (¡¿)">Spanish specials</abbr></label>
+    </p>
+    <script type="text/javascript">
+        var option_data_extended = $('#input_data_extended:checked').val() == 'on';
+        var option_data_full = $('#input_data_full:checked').val() == 'on';
+        var option_data_greek = $('#input_data_greek:checked').val() == 'on';
+        var option_data_accents = $('#input_data_accents:checked').val() == 'on';
+        var option_data_frenchspecials = $('#input_data_frenchspecials:checked').val() == 'on';
+        var option_data_spanishspecials = $('#input_data_spanishspecials:checked').val() == 'on';
+
+        var templates_links = ['template', 'template_html', 'template_ligatures', 'template_ligatures_html'];
+
+        function update_template_links() {
+            for (var i = 0; i < templates_links.length; i++) {
+                $('#' + templates_links[i]).attr("href", "/" + templates_links[i] +
+                    "?e=" + option_data_extended
+                    + "&F=" + option_data_full
+                    + "&g=" + option_data_greek
+                    + "&a=" + option_data_accents
+                    + "&f=" + option_data_frenchspecials
+                    + "&s=" + option_data_spanishspecials
+                );
+            };
+        };
+
+        $(function(){
+            function update_option_data_extended() {
+                option_data_extended = $('#input_data_extended:checked').val() == 'on'
+                console.log("option_data_extended =", option_data_extended);
+                update_template_links();
+            };
+            update_option_data_extended();
+            $('#input_data_extended').on("change keyup paste click", update_option_data_extended);
+
+            function update_option_data_full() {
+                option_data_full = $('#input_data_full:checked').val() == 'on'
+                console.log("option_data_full =", option_data_full);
+                update_template_links();
+            };
+            update_option_data_full();
+            $('#input_data_full').on("change keyup paste click", update_option_data_full);
+
+            function update_option_data_greek() {
+                option_data_greek = $('#input_data_greek:checked').val() == 'on'
+                console.log("option_data_greek =", option_data_greek);
+                update_template_links();
+            };
+            update_option_data_greek();
+            $('#input_data_greek').on("change keyup paste click", update_option_data_greek);
+
+            function update_option_data_accents() {
+                option_data_accents = $('#input_data_accents:checked').val() == 'on'
+                console.log("option_data_accents =", option_data_accents);
+                update_template_links();
+            };
+            update_option_data_accents();
+            $('#input_data_accents').on("change keyup paste click", update_option_data_accents);
+
+            function update_option_data_frenchspecials() {
+                option_data_frenchspecials = $('#input_data_frenchspecials:checked').val() == 'on'
+                console.log("option_data_frenchspecials =", option_data_frenchspecials);
+                update_template_links();
+            };
+            update_option_data_frenchspecials();
+            $('#input_data_frenchspecials').on("change keyup paste click", update_option_data_frenchspecials);
+
+            function update_option_data_spanishspecials() {
+                option_data_spanishspecials = $('#input_data_spanishspecials:checked').val() == 'on'
+                console.log("option_data_spanishspecials =", option_data_spanishspecials);
+                update_template_links();
+            };
+            update_option_data_spanishspecials();
+            $('#input_data_spanishspecials').on("change keyup paste click", update_option_data_spanishspecials);
+        });
+    </script>
+</div>
+
+<a id="template" href="/template" target="_blank">
     <button class="btn btn-primary">
         Print the PDF template
     </button>
 </a>
 <p>
-    1. Fill <a title="Mainly for debugging" href="/template_html" target="_blank">the template</a>, scan it as a single multi-page PDF, and upload it.
+    1. Fill <a title="Mainly for debugging" id="template_html" href="/template_html" target="_blank">the template</a>, scan it as a single multi-page PDF, and upload it.
 
     <br>
     <em>Advice:</em> use a black and not too thin pen.
@@ -32,14 +118,14 @@
     <br>(Fontify supports colored input, but the font will turn out black-white only).
 </p>
 
-<a href="/template_ligatures" target="_blank">
+<a id="template_ligatures" href="/template_ligatures" target="_blank">
     <button class="btn btn-secondary btn-sm">
         Print the PDF template for ligatures?<br>
         (<b>still experimental</b>, don't try it)
     </button>
 </a>
 <p>
-    1.b. (optional) Fill <a title="Mainly for debugging" href="/template_ligatures_html" target="_blank">the template</a>, scan it, and upload.
+    1.b. (optional) Fill <a title="Mainly for debugging" id="template_ligatures_html" href="/template_ligatures_html" target="_blank">the template</a>, scan it, and upload.
 </p>
 
 <div class="font_name">
@@ -79,6 +165,12 @@
     <form action="/upload-file" class="dropzone" id="uploadDropzone">
         <input type="hidden" id="font_name" name="font_name"></input>
         <input type="hidden" id="font_variant" name="font_variant" value="Regular"></input>
+        <!-- <input type="hidden" id="option_data_extended" name="option_data_extended" value="true"></input>
+        <input type="hidden" id="option_data_full" name="option_data_full" value="false"></input>
+        <input type="hidden" id="option_data_greek" name="option_data_greek" value="false"></input>
+        <input type="hidden" id="option_data_accents" name="option_data_accents" value="false"></input>
+        <input type="hidden" id="option_data_frenchspecials" name="option_data_frenchspecials" value="true"></input>
+        <input type="hidden" id="option_data_spanishspecials" name="option_data_spanishspecials" value="false"></input> -->
     </form>
     <br>
     <p>
@@ -89,11 +181,12 @@
 </div>
 
 <div>
-    <p>Optional: choose your font variant</p>
-    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Light"> Light</label>
-    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Regular" checked="checked"> Regular</label>
-    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Medium"> Medium</label>
-    <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Bold"> Bold</label>
+    <p><em>Optional</em>: choose your font variant<br>
+        <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Light"> Light</label>
+        <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Regular" checked="checked"> Regular</label>
+        <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Medium"> Medium</label>
+        <label><input name="choice_font_variant" class="choice_font_variant" type="radio" value="Bold"> Bold</label>
+    </p>
     <script type="text/javascript">
         $(function(){
             var choice_font_variant = $('.choice_font_variant:checked').val();

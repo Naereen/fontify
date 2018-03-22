@@ -37,6 +37,21 @@ EXTENDED = False  # WARNING only for debugging
 EXTENDED = True
 # Use the full charset or not
 FULL = False
+# Use the Greek characters
+GREEK = True
+GREEK = False
+# Use the French/Spanish characters
+ACCENTS = True
+ACCENTS = False
+# Use extra French special characters
+FRENCHSPECIALS = False
+FRENCHSPECIALS = True
+# Use extra Spanish special characters
+SPANISHSPECIALS = True
+SPANISHSPECIALS = False
+
+# kwargs_get_data = dict(extended=EXTENDED, full=FULL, greek=GREEK, accents=ACCENTS, frenchspecials=FRENCHSPECIALS, spanishspecials=SPANISHSPECIALS)
+
 
 CROPPED_IMG_NAME = "cropped_picture"
 CROPPED_IMG_EXT = "bmp"
@@ -75,7 +90,7 @@ def _ljust(input, width, fillchar=None):
 
 # --- get list of unicode characters or ligatures
 
-def _get_flat_chars(extended=EXTENDED, full=FULL):
+def _get_flat_chars(extended=EXTENDED, full=FULL, greek=GREEK, accents=ACCENTS, frenchspecials=FRENCHSPECIALS, spanishspecials=SPANISHSPECIALS):
     """ Return a list of unicode characters for each single-width character."""
     chars = []
     # ASCII letters
@@ -91,19 +106,24 @@ def _get_flat_chars(extended=EXTENDED, full=FULL):
     else:
         # Punctuations and symbols
         chars += list(unicode(u"!?\"$&'(),-.:;"))
-        chars += list(unicode(u"/\\#~{}[]|_@+*`§%^<>="))
+        chars += list(unicode(u"/\\#~{}[]|_@+*`§%^<>=£"))
         # French and Spanish accents
-        chars += list(unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû"))
-        chars += list(unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ"))
-        # Some basic ligatures
-        chars += list(unicode(u"æœßÆŒ"))
-        # non ASCII symbols (currency etc)
-        chars += list(unicode(u"£€…¡¿"))
-        chars += list(unicode(u"«»‘’“”"))
-        # chars += list(unicode(u"  "))  # space ' ' and unbreakable-space ' '
-        # Greek upper and lower
-        chars += list(unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"))
-        chars += list(unicode(u"αβγδεζηθικλμνξοπρςστυφχψω"))
+        if accents:
+            chars += list(unicode(u"àáâäçèéêëîíïñòóôöŷÿùúüû"))
+            chars += list(unicode(u"ÀÁÂÄÇÈÉÊËÎÍÏÑÒÓÔÖŶŸÙÚÜÛ"))
+        if frenchspecials:
+            # Some basic ligatures
+            chars += list(unicode(u"æœßÆŒ"))
+            # non ASCII symbols (currency etc)
+            chars += list(unicode(u"€…"))
+            chars += list(unicode(u"«»‘’“”"))
+        if spanishspecials:
+            chars += list(unicode(u"¡¿"))
+        # chars += list(unicode(u"  "))  # space ' ' and unbreakable-space ' '  # XXX not needed anymore
+        if greek:
+            # Greek upper and lower
+            chars += list(unicode(u"ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"))
+            chars += list(unicode(u"αβγδεζηθικλμνξοπρςστυφχψω"))
         if not full:
             return chars
         # Special ligatures
@@ -112,7 +132,7 @@ def _get_flat_chars(extended=EXTENDED, full=FULL):
         chars += list(unicode(u"🙰"))
         # non ASCII symbols (currency etc)
         chars += list(unicode(u"¥₩₹₺₽元"))
-        # Greek special caracters, nobody use that!
+        # Greek special characters, nobody use that!
         # chars += list(unicode(u"΄΅Ά·ΈΉΊΌΎΏΐΰ"))
         chars += list(unicode(u"ΪΫάέήίϊϋόύώ"))
         # Maths
@@ -121,7 +141,7 @@ def _get_flat_chars(extended=EXTENDED, full=FULL):
     return chars
 
 
-def _get_flat_ligatures(extended=EXTENDED, full=FULL):
+def _get_flat_ligatures(extended=EXTENDED, full=FULL, greek=GREEK, accents=ACCENTS, frenchspecials=FRENCHSPECIALS, spanishspecials=SPANISHSPECIALS):
     """ Return a list of unicode characters for each ligature."""
     ligatures = []
     # FIXME I'm experimenting on this, cf https://github.com/Naereen/fontify/issues/3
@@ -185,19 +205,19 @@ def _get_flat_ligatures(extended=EXTENDED, full=FULL):
     return ligatures
 
 
-def get_flat_chars():
+def get_flat_chars(**kwargs):
     # FIXME remove
-    return _get_flat_chars()
-    return _get_flat_chars() + _get_flat_ligatures()
+    return _get_flat_chars(**kwargs)
+    return _get_flat_chars(**kwargs) + _get_flat_ligatures(**kwargs)
 
-def get_flat_ligatures():
-    return _get_flat_ligatures()
+def get_flat_ligatures(**kwargs):
+    return _get_flat_ligatures(**kwargs)
 
 
 # --- get grouped data (unused)
 
-def _get_grouped(get_flat_input):
-    inputs = get_flat_input()
+def _get_grouped(get_flat_input, **kwargs):
+    inputs = get_flat_input(**kwargs)
     grouped_inputs = [
         inputs[i: i + ROWS]
         for i in range(0, len(inputs), ROWS)
@@ -206,13 +226,13 @@ def _get_grouped(get_flat_input):
     return grouped_inputs
 
 
-def get_grouped_chars(): return _get_grouped(get_flat_chars)
-def get_grouped_ligatures(): return _get_grouped(get_flat_ligatures)
+def get_grouped_chars(**kwargs): return _get_grouped(get_flat_chars, **kwargs)
+def get_grouped_ligatures(**kwargs): return _get_grouped(get_flat_ligatures, **kwargs)
 
 # --- get grouped and padded data (non used)
 
-def _get_grouped_and_padded(get_grouped_inputs):
-    inputs = get_grouped_inputs()
+def _get_grouped_and_padded(get_grouped_inputs, **kwargs):
+    inputs = get_grouped_inputs(**kwargs)
     inputs[-1] = _ljust(inputs[-1], COLUMNS)
     inputs.extend([
         ' ' * ROWS
@@ -222,14 +242,14 @@ def _get_grouped_and_padded(get_grouped_inputs):
     return inputs
 
 
-def get_chars(): return _get_grouped_and_padded(get_grouped_chars)
-def get_ligatures(): return _get_grouped_and_padded(get_grouped_ligatures)
+def get_chars(**kwargs): return _get_grouped_and_padded(get_grouped_chars, **kwargs)
+def get_ligatures(**kwargs): return _get_grouped_and_padded(get_grouped_ligatures, **kwargs)
 
 
 # --- get data grouped by pages
 
-def _get_by_page(get_flat_inputs):
-    inputs = get_flat_inputs()
+def _get_by_page(get_flat_inputs, **kwargs):
+    inputs = get_flat_inputs(**kwargs)
     grouped_inputs = [
         inputs[i: i + COLUMNS]
         for i in range(0, len(inputs), COLUMNS)
@@ -256,8 +276,8 @@ def _get_by_page(get_flat_inputs):
     return grouped_inputs_by_page
 
 
-def get_chars_by_page(): return _get_by_page(get_flat_chars)
-def get_ligatures_by_page(): return _get_by_page(get_flat_ligatures)
+def get_chars_by_page(**kwargs): return _get_by_page(get_flat_chars, **kwargs)
+def get_ligatures_by_page(**kwargs): return _get_by_page(get_flat_ligatures, **kwargs)
 
 
 # --- sample characters (in light gray in the template)

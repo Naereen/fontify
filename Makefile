@@ -34,4 +34,4 @@ send_zamok:	clean
 	CP --exclude=.git ./ ${Szam}publis/fontify.git/
 
 send_ws3:	clean
-	CP ./ ${Sw}fontify.git/
+	CP ./ ${Sw}publis/fontify.git/

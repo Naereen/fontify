@@ -11,7 +11,7 @@
 ## Warning
 :boom: **I will not try to run the app somewhere online.**
 
-:raised_hand_with_fingers_splayed: If you want to use Fontify, you need a laptop under Debian or Ubuntu (or maybe Mac OS X), with Python installed, and use the instructions explained below.
+:raised_hand_with_fingers_splayed: If you want to use Fontify, you need a laptop under Debian or Ubuntu (or maybe Mac OS X or a virtual machine under Microsoft Windows), with Python installed, and use the instructions explained below.
 
 ## Demo
 

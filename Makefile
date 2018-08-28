@@ -36,7 +36,7 @@ test_pdf:
 # Senders:
 send:	send_zamok
 send_zamok:	clean
-	CP --exclude=.git ./ ${Szam}publis/fontify.git/
+	CP --exclude=.git --exclude=env ./ ${Szam}publis/fontify.git/
 
 send_ws3:	clean
 	CP ./ ${Sw}publis/fontify.git/

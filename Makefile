@@ -21,6 +21,11 @@ run:
 	# firefox http://0.0.0.0:5000/ &
 	. env/bin/activate && python wsgi.py
 
+install_env:
+	virtualenv2 env
+	. env/bin/activate && type pip python
+	. env/bin/activate && pip install -r requirements.txt
+
 test_pdf:
 	xelatex static/test.tex
 	xelatex static/test.tex

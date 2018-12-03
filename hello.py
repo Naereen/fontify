@@ -9,7 +9,7 @@ import glob
 try:
     from StringIO import StringIO
 except ImportError:  # in Python 3
-    from io.StringIO import StringIO
+    from io import StringIO
 
 from flask import Flask
 from flask import request
